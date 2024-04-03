@@ -1,0 +1,55 @@
+version: "3.5"
+
+name: my-components
+
+services:
+
+  quarkus-base-template:
+    image: quarkus-base-template:latest
+    container_name: quarkus-base-template
+    hostname: quarkus-base-template-service
+    depends_on:
+      - mariadb
+    ports:
+      - "8081:8080"
+    networks:
+      - my-network
+
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8084:80"
+    environment:
+      PMA_HOSTS: mariadb-service
+      PMA_PORTS: 3306
+      PMA_ARBITRARY: 1
+    networks:
+      - my-network
+
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    hostname: mariadb-service
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: PEREZ360
+      MARIADB_USER: test
+      MARIADB_PASSWORD: test@123
+      MARIADB_DATABASE: backend
+      MYSQL_INITDB_SKIP_TZINFO: 1
+      MYSQL_INITDB_WD: /docker-entrypoint-initdb.d
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d
+    networks:
+      - my-network
+      -
+
+networks:
+  my-network:
+    name: my-network
+    driver: bridge
