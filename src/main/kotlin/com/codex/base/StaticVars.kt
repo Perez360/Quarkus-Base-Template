@@ -17,5 +17,3 @@ const val SYSTEM_MESSAGE_ERROR = "ERROR"
 const val DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS a"
 const val DATE_PATTERN = "yyyy-MM-dd"
 const val TIME_PATTERN = "HH:mm:ss.SSS a"
-
-

@@ -1,7 +1,7 @@
 package com.codex.business.components.user.repo
 
-import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepositoryBase
+import com.codex.base.utils.CustomPanacheRepositoryBase
 import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
-class UserRepo : PanacheRepositoryBase<User, String>
+class UserRepo : CustomPanacheRepositoryBase<User, String>

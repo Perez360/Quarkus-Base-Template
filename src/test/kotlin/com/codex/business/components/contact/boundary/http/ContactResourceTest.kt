@@ -4,7 +4,7 @@ import com.codex.base.CODE_SUCCESS
 import com.codex.base.SYSTEM_CODE_SUCCESS
 import com.codex.base.SYSTEM_MESSAGE_SUCCESS
 import com.codex.business.components.contact.dto.AddContactDTO
-import com.codex.business.components.mockAddContactDTO
+import com.codex.business.mockAddContactDTO
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured
 import jakarta.ws.rs.core.MediaType

@@ -1,5 +1,6 @@
 package com.codex.business.components.user.repo
 
+import com.codex.base.DATE_TIME_PATTERN
 import com.codex.business.components.contact.repo.Contact
 import com.codex.business.components.user.enum.UserRole
 import com.codex.business.components.user.enum.UserStatus
@@ -8,8 +9,11 @@ import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntityBase
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
+import org.jboss.resteasy.reactive.DateFormat
+import org.jboss.resteasy.reactive.DateFormat.DateTimeFormatterProvider
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 @Entity
@@ -22,7 +26,7 @@ import java.time.LocalDateTime
         Index(name = "idx_status", columnList = "status"),
         Index(name = "idx_role", columnList = "role"),
         Index(name = "idx_user_createdAt", columnList = "createdAt"),
-        Index(name = "idx_user_updatedAt", columnList = "updatedAt"),
+        Index(name = "idx_user_modifiedAt", columnList = "modifiedAt"),
     ]
 )
 data class User(
@@ -40,7 +44,7 @@ data class User(
         cascade = [CascadeType.ALL],
         orphanRemoval = true,
     )
-    var contacts: MutableList<Contact>? = null,
+    var contacts: MutableList<Contact>? = mutableListOf(),
 
     var dob: LocalDate? = null,
 
@@ -51,10 +55,12 @@ data class User(
     var role: UserRole? = UserRole.USER,
 
     @CreationTimestamp
-    val createdAt: LocalDateTime? = null,
+    @DateFormat(pattern = DATE_TIME_PATTERN)
+    var createdAt: LocalDateTime? = null,
 
     @UpdateTimestamp
-    val updatedAt: LocalDateTime? = null,
+    @DateFormat(pattern = DATE_TIME_PATTERN)
+    var modifiedAt: LocalDateTime? = null,
 
     @Version
     val version: Long? = null

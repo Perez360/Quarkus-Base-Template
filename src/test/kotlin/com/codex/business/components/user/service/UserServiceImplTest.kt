@@ -1,18 +1,18 @@
 package com.codex.business.components.user.service
 
-import com.codex.base.utils.search
+import com.codex.business.mockedUpdateUser
+import com.codex.business.mockedUser
 import com.codex.business.components.user.dto.AddUserDTO
 import com.codex.business.components.user.dto.UpdateUserDTO
 import com.codex.business.components.user.repo.User
 import com.codex.business.components.user.repo.UserRepo
 import com.codex.business.components.user.spec.UserSpec
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
-import io.quarkus.panache.common.Sort
+import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepositoryBase
 import io.quarkus.test.InjectMock
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.MockMakers
 import org.mockito.MockSettings
@@ -47,8 +47,8 @@ class UserServiceImplTest {
     @Test
     fun add() {
         //GIVEN
-        val mockedAddUserDTO: AddUserDTO = Mockito.mock(mockSettings)
-        val mockedUser: User = Mockito.mock(mockSettings)
+        val mockedAddUserDTO: AddUserDTO = Mockito.mock(Mockito.withSettings().mockMaker(MockMakers.INLINE))
+        val mockedUser: User = Mockito.mock(Mockito.withSettings().mockMaker(MockMakers.INLINE))
 
         //WHEN
         Mockito.doNothing().`when`(userRepo).persist(mockedUser)
@@ -63,8 +63,8 @@ class UserServiceImplTest {
     @Test
     fun update() {
         //GIVEN
-        val mockedUpdateUserDTO: UpdateUserDTO = Mockito.mock()
-        val mockedUser: User = Mockito.mock()
+        val mockedUpdateUserDTO: UpdateUserDTO = mockedUpdateUser()
+        val mockedUser: User = mockedUser()
 
         //WHEN
         Mockito.`when`(userRepo.findById(mockedUpdateUserDTO.id!!)).thenReturn(mockedUser)
@@ -102,49 +102,45 @@ class UserServiceImplTest {
 
     @Test
     fun list() {
-        // Arrange
+        // GIVEN
         val page = 1
         val size = 10
+        val mockedPanacheQuery: PanacheQuery<User> = Mockito.mock(mockSettings)
+        val mockedPanacheRepositoryBase1: PanacheRepositoryBase<User, String> = Mockito.mock(mockSettings)
+        Mockito.`when`(userRepo.findAll())
+            .thenReturn(mockedPanacheQuery)
+        Mockito.`when`(mockedPanacheRepositoryBase1.findAll())
+            .thenReturn(mockedPanacheQuery)
+        // GIVEN
+        val panacheQuery = underTest.list(page, size)
 
-        val mockQuery: PanacheQuery<User> = Mockito.mock()
-        Mockito.`when`(userRepo.findAll(Mockito.any(Sort::class.java))).thenReturn(mockQuery)
-
-        // Act
-        val result = underTest.list(page, size)
-
-        // Assert
-        assertEquals(mockQuery, result)
-        Mockito.verify(mockQuery).page(page, size)
+        // WHEN
+        Assertions.assertEquals(mockedPanacheQuery, panacheQuery)
+        Mockito.verify(userRepo).findAll()
     }
 
 
     @Test
     fun search() {
         //GIVEN
-        val userSpec = UserSpec()
-        userSpec.page = 0
-        userSpec.size = 50
-        userSpec.sortBy = User::createdAt.name
+        val userSpec: UserSpec = Mockito.mock(mockSettings)
 
-        val panacheQuery: PanacheQuery<User> = Mockito.mock(mockSettings)
+        val mockedPanacheQuery: PanacheQuery<User> = Mockito.mock()
+        Mockito.`when`(userRepo.search(userSpec)).thenReturn(mockedPanacheQuery)
 
-        println("Page and size: ${userSpec.page} ${userSpec.size}")
-        println("Panache query $panacheQuery")
         //WHEN
-        Mockito.`when`(panacheQuery.page(userSpec.page!!, userSpec.size!!)).thenReturn(panacheQuery)
-        Mockito.`when`(userRepo.findAll(Sort.ascending(userSpec.sortBy))).thenReturn(panacheQuery)
-        Mockito.`when`(userRepo.search(userSpec)).thenReturn(panacheQuery)
-        val lists = underTest.search(userSpec)
+        val panacheQuery = underTest.search(userSpec)
 
         //THEN
         Mockito.verify(userRepo, Mockito.atMostOnce()).search(userSpec)
-        Assertions.assertNotNull(lists)
+        Assertions.assertNotNull(panacheQuery)
     }
 
     @Test
     fun delete() {
         //GIVEN
-        val mockedUser: User = Mockito.mock(mockSettings)
+        val mockedUser: User = mockedUser()
+        println("Id: ${mockedUser.id}")
 
         //WHEN
         Mockito.`when`(userRepo.deleteById(mockedUser.id!!)).thenReturn(true)
@@ -157,24 +153,6 @@ class UserServiceImplTest {
         Assertions.assertNotNull(deletedUser)
         Assertions.assertSame(deletedUser, mockedUser)
     }
-
-//    @Test
-//    fun it_should_throw_an_exception_when_delete() {
-//        //GIVEN
-//        val mockedUser = mockedUser()
-//        val exception = ServiceException("Failed to delete user")
-//
-//        //WHEN
-//        Mockito.`when`(userRepo.findById(mockedUser.id!!)).thenReturn(null)
-//        Mockito.doThrow(exception).`when`(userRepo).findById(mockedUser.id!!)
-//        Mockito.`when`(userRepo.deleteById(mockedUser.id!!)).thenReturn(true)
-//        val deletedUser = underTest.delete(mockedUser.id!!)
-//
-//        //THEN
-//        Mockito.verify(userRepo, Mockito.never()).deleteById(mockedUser.id!!)
-//        Mockito.verify(userRepo, Mockito.atMostOnce()).findById(mockedUser.id!!)
-//        Assertions.assertThrows(exception::class.java) { }
-//    }
 
     @Test
     fun it_should_delete_all() {

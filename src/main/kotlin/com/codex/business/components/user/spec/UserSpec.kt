@@ -1,6 +1,6 @@
 package com.codex.business.components.user.spec
 
-import com.codex.base.shared.Query
+import com.codex.base.shared.Querys
 import com.codex.base.shared.Spec
 import com.codex.business.components.contact.enum.ContactType
 import com.codex.business.components.contact.repo.Contact
@@ -40,8 +40,8 @@ class UserSpec : Spec() {
     @QueryParam("createdAt")
     var createdAt: LocalDateTime? = null
 
-    @QueryParam("updatedAt")
-    var updatedAt: LocalDateTime? = null
+    @QueryParam("modifiedAt")
+    var modifiedAt: LocalDateTime? = null
 
     override fun toParameters(): Parameters = Parameters
         .with(::firstName.name, firstName)
@@ -51,18 +51,18 @@ class UserSpec : Spec() {
         .and(::status.name, status)
         .and(::contactType.name, contactType)
         .and(::createdAt.name, createdAt)
-        .and(::updatedAt.name, updatedAt)
+        .and(::modifiedAt.name, modifiedAt)
         .and(::startDate.name, startDate)
         .and(::endDate.name, endDate)
 
 
     override fun queryDefinition(entry: Map.Entry<String, Any?>): String {
         return when (entry.key) {
-            ::firstName.name, ::lastName.name -> Query.contains(entry.key, entry.key)
-            ::contactType.name -> Query.isIn(User::contacts.name, Contact::type.name, entry.key)
-            ::startDate.name -> Query.isGreaterThanOrEqualTo(User::createdAt.name, entry.key)
-            ::endDate.name -> Query.isLessThanOrEqualTo(User::createdAt.name, entry.key)
-            else -> Query.isEqualTo(entry.key, entry.key)
+            ::firstName.name, ::lastName.name -> Querys.contains(entry.key, entry.key)
+            ::contactType.name -> Querys.isIn(User::contacts.name, Contact::type.name, entry.key)
+            ::startDate.name -> Querys.isGreaterThanOrEqualTo(User::createdAt.name, entry.key)
+            ::endDate.name -> Querys.isLessThanOrEqualTo(User::createdAt.name, entry.key)
+            else -> Querys.isEqualTo(entry.key, entry.key)
         }
     }
 
@@ -77,7 +77,7 @@ class UserSpec : Spec() {
                 "startDate=$startDate, " +
                 "endDate=$endDate, " +
                 "createdAt=$createdAt, " +
-                "updatedAt=$updatedAt, " +
+                "modifiedAt=$modifiedAt, " +
 
                 "sortOrder=$sortOrder, " +
                 "sortBy=$sortBy, " +

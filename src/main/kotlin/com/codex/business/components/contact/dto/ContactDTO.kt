@@ -8,6 +8,6 @@ data class ContactDTO(
     var content: String? = null,
     var type: ContactType? = null,
     val createdAt: LocalDateTime? = null,
-    val updatedAt: LocalDateTime? = null,
+    val modifiedAt: LocalDateTime? = null,
     val version: Long? = null
 )

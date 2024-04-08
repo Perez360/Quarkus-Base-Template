@@ -74,7 +74,7 @@ class UserResourceImpl : UserResource {
         val sessionId = Generator.generateSessionId()
         val pagedUsers: PagedContent<UserDTO> = userService.list(page, size)
             .toPagedContent(Mapper::convert)
-        logger.info("{}: Users to list in pages: {}", sessionId, pagedUsers)
+        logger.info("{}: Listed users in pages: {}", sessionId, pagedUsers)
         return wrapSuccessInResponse(pagedUsers)
     }
 
@@ -85,7 +85,7 @@ class UserResourceImpl : UserResource {
         val sessionId = Generator.generateSessionId()
         val pagedUsers: PagedContent<UserDTO> = userService.search(userSpec)
             .toPagedContent(Mapper::convert)
-        logger.info("{}: Users to list in pages: {}", sessionId, pagedUsers)
+        logger.info("{}: Searched users in pages: {}", sessionId, pagedUsers)
         return wrapSuccessInResponse(pagedUsers)
     }
 

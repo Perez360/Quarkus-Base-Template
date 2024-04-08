@@ -1,6 +1,6 @@
 package com.codex.business.components.contact.spec
 
-import com.codex.base.shared.Query
+import com.codex.base.shared.Querys
 import com.codex.base.shared.Spec
 import com.codex.business.components.contact.enum.ContactType
 import io.quarkus.panache.common.Parameters
@@ -8,7 +8,7 @@ import jakarta.ws.rs.QueryParam
 
 class ContactSpec : Spec() {
     @QueryParam(value = "content")
-    var value: String? = null
+    var content: String? = null
 
     @QueryParam(value = "type")
     var type: ContactType? = null
@@ -17,25 +17,25 @@ class ContactSpec : Spec() {
     var user: String? = null
 
     override fun toParameters(): Parameters {
-        return Parameters.with(::value.name, value)
-            .and(::value.name, value)
+        return Parameters.with(::content.name, content)
+            .and(::content.name, content)
             .and(::type.name, type)
             .and(::user.name, user)
     }
 
     override fun queryDefinition(entry: Map.Entry<String, Any?>): String {
         return when (entry.key) {
-            ::value.name -> Query.contains(entry.key, entry.key)
-            ::user.name -> Query.isEqualTo(entry.key+".id", entry.key)
-            else -> Query.isEqualTo(entry.key, entry.key)
+            ::content.name -> Querys.contains(entry.key, entry.key)
+            ::user.name -> Querys.isEqualTo(entry.key + ".id", entry.key)
+            else -> Querys.isEqualTo(entry.key, entry.key)
         }
     }
 
     override fun toString(): String {
         return "ContactSpec(" +
-                "content=$value, " +
+                "content=$content, " +
                 "type=$type, " +
-                "userId=$user" +
+                "userId=$user, " +
 
                 "sortOrder=$sortOrder, " +
                 "sortBy=$sortBy, " +

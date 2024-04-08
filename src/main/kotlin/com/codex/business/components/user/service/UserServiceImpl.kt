@@ -1,7 +1,6 @@
 package com.codex.business.components.user.service
 
 import com.codex.base.exceptions.ServiceException
-import com.codex.base.utils.search
 import com.codex.business.components.user.dto.AddUserDTO
 import com.codex.business.components.user.dto.UpdateUserDTO
 import com.codex.business.components.user.repo.User
@@ -48,20 +47,17 @@ class UserServiceImpl : UserService {
     override fun getById(id: String): User {
         val oneUser = userRepo.findById(id)
             ?: throw ServiceException("No user found with id: $id")
-
         return oneUser
     }
 
     override fun list(page: Int, size: Int): PanacheQuery<User> {
-
-        val panacheQuery:PanacheQuery<User> = userRepo.findAll(Sort.descending(User::createdAt.name))
+        val panacheQuery: PanacheQuery<User> = userRepo.findAll()
             .page(page, size)
         return panacheQuery
     }
 
     override fun search(userSpec: UserSpec): PanacheQuery<User> {
         val panacheQuery = userRepo.search(userSpec)
-
         return panacheQuery
     }
 
@@ -74,7 +70,6 @@ class UserServiceImpl : UserService {
 
     override fun deleteAll(): Boolean {
         val deleteCount = userRepo.deleteAll()
-
         return deleteCount >= 0
     }
 

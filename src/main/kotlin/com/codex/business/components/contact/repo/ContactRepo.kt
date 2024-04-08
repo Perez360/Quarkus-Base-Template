@@ -1,7 +1,7 @@
 package com.codex.business.components.contact.repo
 
-import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepositoryBase
+import com.codex.base.utils.CustomPanacheRepositoryBase
 import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
-class ContactRepo : PanacheRepositoryBase<Contact, String>
+class ContactRepo : CustomPanacheRepositoryBase<Contact, String>

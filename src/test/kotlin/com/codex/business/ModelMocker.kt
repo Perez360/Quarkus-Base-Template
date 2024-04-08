@@ -1,4 +1,4 @@
-package com.codex.business.components
+package com.codex.business
 
 import com.codex.business.components.contact.dto.AddContactDTO
 import com.codex.business.components.contact.dto.ContactDTO

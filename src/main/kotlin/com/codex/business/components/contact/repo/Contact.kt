@@ -18,7 +18,7 @@ import java.time.LocalDateTime
         Index(name = "idx_type", columnList = "type"),
         Index(name = "idx_user", columnList = "userId"),
         Index(name = "idx_contact_createdAt", columnList = "createdAt"),
-        Index(name = "idx_contact_updatedAt", columnList = "updatedAt"),
+        Index(name = "idx_contact_modifiedAt", columnList = "modifiedAt"),
     ]
 )
 data class Contact(
@@ -40,7 +40,7 @@ data class Contact(
     val createdAt: LocalDateTime? = null,
 
     @UpdateTimestamp
-    val updatedAt: LocalDateTime? = null,
+    val modifiedAt: LocalDateTime? = null,
 
     @Version
     val version: Long? = null

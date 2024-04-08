@@ -1,6 +1,6 @@
 version: "3.5"
 
-name: my-components
+name: my-quarkus-components
 
 services:
 
@@ -10,6 +10,7 @@ services:
     hostname: quarkus-base-template-service
     depends_on:
       - mariadb
+      - phpmyadmin
     ports:
       - "8081:8080"
     networks:
@@ -38,16 +39,15 @@ services:
       - "3306:3306"
     environment:
       MARIADB_ROOT_PASSWORD: PEREZ360
-      MARIADB_USER: test
-      MARIADB_PASSWORD: test@123
-      MARIADB_DATABASE: backend
+      MARIADB_USER: quarkus
+      MARIADB_PASSWORD: quarkus@123
+      MARIADB_DATABASE: quarkus
       MYSQL_INITDB_SKIP_TZINFO: 1
       MYSQL_INITDB_WD: /docker-entrypoint-initdb.d
     volumes:
       - ./initdb:/docker-entrypoint-initdb.d
     networks:
       - my-network
-      -
 
 networks:
   my-network:

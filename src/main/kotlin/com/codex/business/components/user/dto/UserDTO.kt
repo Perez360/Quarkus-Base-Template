@@ -15,6 +15,6 @@ data class UserDTO(
     var role: UserRole? = null,
     val contacts: List<ContactDTO>? = null,
     val createdAt: LocalDateTime? = null,
-    val updatedAt: LocalDateTime? = null,
+    val modifiedAt: LocalDateTime? = null,
     val version: Long? = null
 )
