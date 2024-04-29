@@ -127,6 +127,7 @@ class UserServiceImplTest {
 
         val mockedPanacheQuery: PanacheQuery<User> = Mockito.mock()
         Mockito.`when`(userRepo.search(userSpec)).thenReturn(mockedPanacheQuery)
+        Mockito.`when`(mockedPanacheQuery.page()).thenReturn(Mockito.mock())
 
         //WHEN
         val panacheQuery = underTest.search(userSpec)

@@ -1,4 +1,4 @@
-package com.codex.business.components.contact.boundary
+package com.codex.business.components.contact.boundary.http
 
 
 import com.codex.base.shared.APIResponse

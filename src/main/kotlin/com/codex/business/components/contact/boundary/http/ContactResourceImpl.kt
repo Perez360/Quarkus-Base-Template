@@ -4,24 +4,28 @@ package com.codex.business.components.contact.boundary.http
 import com.codex.base.shared.APIResponse
 import com.codex.base.shared.PagedContent
 import com.codex.base.utils.*
-import com.codex.business.components.contact.boundary.ContactResource
 import com.codex.business.components.contact.dto.AddContactDTO
 import com.codex.business.components.contact.dto.ContactDTO
 import com.codex.business.components.contact.dto.UpdateContactDTO
 import com.codex.business.components.contact.repo.Contact
 import com.codex.business.components.contact.service.ContactService
 import com.codex.business.components.contact.spec.ContactSpec
+import io.quarkus.security.Authenticated
+import jakarta.annotation.security.RolesAllowed
 import jakarta.inject.Inject
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
+import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme
 import org.eclipse.microprofile.openapi.annotations.tags.Tag
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 
+@Authenticated
 @Path("api/v1/contacts")
-@Tag(name = "Contacts", description = "Manages everything related to contacts")
 @Produces(MediaType.APPLICATION_JSON)
+@SecurityScheme(securitySchemeName = "keycloak")
+@Tag(name = "Contacts", description = "Manages everything related to contacts")
 class ContactResourceImpl : ContactResource {
 
     @Inject
@@ -30,6 +34,7 @@ class ContactResourceImpl : ContactResource {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     @POST
+    @RolesAllowed("ADMIN")
     @Consumes(MediaType.APPLICATION_JSON)
     override fun addContact(dto: AddContactDTO): APIResponse<ContactDTO> {
         logger.info("Add contact route has been triggered with payload: {}", dto)
@@ -41,6 +46,7 @@ class ContactResourceImpl : ContactResource {
     }
 
     @PUT
+    @RolesAllowed("ADMIN")
     @Consumes(MediaType.APPLICATION_JSON)
     override fun updateContact(dto: UpdateContactDTO): APIResponse<ContactDTO> {
         logger.info("Update contact route has been triggered with payload: {}", dto)
@@ -51,8 +57,9 @@ class ContactResourceImpl : ContactResource {
         return wrapSuccessInResponse(oneContactDTO)
     }
 
-    @Path("/{id}")
     @GET
+    @Path("/{id}")
+    @RolesAllowed("ADMIN", "USER")
     override fun getByContactId(@PathParam("id") id: String): APIResponse<ContactDTO> {
         logger.info("Get contact by id route has been triggered with id: {}", id)
         val sessionId = Generator.generateSessionId()
@@ -64,6 +71,7 @@ class ContactResourceImpl : ContactResource {
 
     @GET
     @Path("/list")
+    @RolesAllowed("ADMIN", "USER")
     override fun listAllContacts(
         @QueryParam("page") @DefaultValue("0") page: Int,
         @QueryParam("size") @DefaultValue("50") size: Int
@@ -78,6 +86,7 @@ class ContactResourceImpl : ContactResource {
 
     @GET
     @Path("/q")
+    @RolesAllowed("ADMIN", "USER")
     override fun searchContacts(@BeanParam contactSpec: ContactSpec): APIResponse<PagedContent<ContactDTO>> {
         logger.info("Search contacts route has been triggered with spec: {}", contactSpec)
         val sessionId = Generator.generateSessionId()
@@ -89,6 +98,7 @@ class ContactResourceImpl : ContactResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("ADMIN")
     override fun deleteContact(@PathParam("id") id: String): APIResponse<ContactDTO> {
         logger.info("Delete contact route has been triggered with id: {}", id)
         val sessionId = Generator.generateSessionId()

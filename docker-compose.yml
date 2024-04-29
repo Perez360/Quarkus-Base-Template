@@ -1,4 +1,4 @@
-version: "3.5"
+version: "3.9"
 
 name: my-quarkus-components
 
@@ -7,10 +7,10 @@ services:
   quarkus-base-template:
     image: quarkus-base-template:latest
     container_name: quarkus-base-template
-    hostname: quarkus-base-template-service
     depends_on:
       - mariadb
       - phpmyadmin
+      - keycloak
     ports:
       - "8081:8080"
     networks:
@@ -27,6 +27,42 @@ services:
       PMA_HOSTS: mariadb-service
       PMA_PORTS: 3306
       PMA_ARBITRARY: 1
+    networks:
+      - my-network
+
+
+  dbeaver:
+    image: dbeaver/cloudbeaver:latest
+    container_name: dbeaver
+    restart: always
+    ports:
+      - "8978:8978"
+    environment:
+      CB_SERVER_HOST: mariadb-service
+    networks:
+      - my-network
+
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    hostname: keycloak-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mariadb
+    environment:
+      KEYCLOAK_ADMIN: quarkus
+      KEYCLOAK_ADMIN_PASSWORD: quarkus@123
+      KC_DB: mariadb
+      KC_DB_USERNAME: quarkus
+      KC_DB_PASSWORD: quarkus@123
+      KC_DB_URL: jdbc:mariadb://mariadb-service:3306/quarkus
+      KC_DB_POOL_INITIAL_SIZE: 5
+      KC_DB_POOL_MIN_SIZE: 2
+      KC_DB_POOL_MAX_SIZE: 10
+      KC_LOG_LEVEL: DEBUG
+    command: start-dev
     networks:
       - my-network
 

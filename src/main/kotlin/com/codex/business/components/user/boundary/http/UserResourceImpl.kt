@@ -12,17 +12,22 @@ import com.codex.business.components.user.dto.UserDTO
 import com.codex.business.components.user.repo.User
 import com.codex.business.components.user.service.UserService
 import com.codex.business.components.user.spec.UserSpec
+import io.quarkus.security.Authenticated
+import jakarta.annotation.security.RolesAllowed
 import jakarta.inject.Inject
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
+import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme
 import org.eclipse.microprofile.openapi.annotations.tags.Tag
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 
+@Authenticated
 @Path("/api/v1/users")
-@Tag(name = "Users", description = "Manages everything related to users")
 @Produces(MediaType.APPLICATION_JSON)
+@SecurityScheme(securitySchemeName = "keycloak")
+@Tag(name = "Users", description = "Manages everything related to users")
 class UserResourceImpl : UserResource {
 
     @Inject
@@ -30,7 +35,9 @@ class UserResourceImpl : UserResource {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
+
     @POST
+    @RolesAllowed("ADMIN")
     @Consumes(MediaType.APPLICATION_JSON)
     override fun addUser(dto: AddUserDTO): APIResponse<UserDTO> {
         logger.info("Add user route has been triggered with dto: {}", dto)
@@ -42,6 +49,7 @@ class UserResourceImpl : UserResource {
     }
 
     @PUT
+    @RolesAllowed("ADMIN")
     @Consumes(MediaType.APPLICATION_JSON)
     override fun updateUser(dto: UpdateUserDTO): APIResponse<UserDTO> {
         val sessionId = Generator.generateSessionId()
@@ -55,6 +63,7 @@ class UserResourceImpl : UserResource {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed("ADMIN", "USER")
     override fun getByUserId(@PathParam("id") id: String): APIResponse<UserDTO> {
         logger.info("Get user by id route has been triggered with id: {}", id)
         val sessionId = Generator.generateSessionId()
@@ -66,6 +75,7 @@ class UserResourceImpl : UserResource {
 
     @GET
     @Path("/list")
+    @RolesAllowed("ADMIN", "USER")
     override fun listAllUsers(
         @QueryParam("page") @DefaultValue("0") page: Int,
         @QueryParam("size") @DefaultValue("50") size: Int
@@ -80,6 +90,7 @@ class UserResourceImpl : UserResource {
 
     @GET
     @Path("/q")
+    @RolesAllowed("ADMIN", "USER")
     override fun searchUsers(@BeanParam userSpec: UserSpec): APIResponse<PagedContent<UserDTO>> {
         logger.info("Search users route has been triggered with spec: {}", userSpec)
         val sessionId = Generator.generateSessionId()
@@ -91,6 +102,7 @@ class UserResourceImpl : UserResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("ADMIN")
     override fun deleteUser(@PathParam("id") id: String): APIResponse<UserDTO> {
         logger.info("Delete user route has been triggered with id: {}", id)
         val sessionId = Generator.generateSessionId()
