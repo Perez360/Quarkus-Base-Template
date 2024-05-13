@@ -2,6 +2,7 @@ package com.codex.business.components.contact.repo
 
 import com.codex.business.components.contact.enum.ContactType
 import com.codex.business.components.user.repo.User
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntityBase
 import jakarta.persistence.*
@@ -32,8 +33,9 @@ data class Contact(
     var type: ContactType? = null,
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "userId")
+    @ManyToOne(fetch = FetchType.LAZY)
     var user: User? = null,
 
     @CreationTimestamp

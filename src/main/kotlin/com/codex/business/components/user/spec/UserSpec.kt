@@ -1,6 +1,6 @@
 package com.codex.business.components.user.spec
 
-import com.codex.base.shared.Querys
+import com.codex.base.shared.Queries
 import com.codex.base.shared.Spec
 import com.codex.business.components.contact.enum.ContactType
 import com.codex.business.components.contact.repo.Contact
@@ -58,11 +58,11 @@ class UserSpec : Spec() {
 
     override fun queryDefinition(entry: Map.Entry<String, Any?>): String {
         return when (entry.key) {
-            ::firstName.name, ::lastName.name -> Querys.contains(entry.key, entry.key)
-            ::contactType.name -> Querys.isIn(User::contacts.name, Contact::type.name, entry.key)
-            ::startDate.name -> Querys.isGreaterThanOrEqualTo(User::createdAt.name, entry.key)
-            ::endDate.name -> Querys.isLessThanOrEqualTo(User::createdAt.name, entry.key)
-            else -> Querys.isEqualTo(entry.key, entry.key)
+            ::firstName.name, ::lastName.name -> Queries.contains(entry.key, entry.key)
+            ::contactType.name -> Queries.isIn(User::contacts.name, Contact::type.name, entry.key)
+            ::startDate.name -> Queries.isGreaterThanOrEqualTo(User::createdAt.name, entry.key)
+            ::endDate.name -> Queries.isLessThanOrEqualTo(User::createdAt.name, entry.key)
+            else -> Queries.isEqualTo(entry.key, entry.key)
         }
     }
 

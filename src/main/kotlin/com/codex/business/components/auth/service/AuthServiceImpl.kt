@@ -9,6 +9,7 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import jakarta.ws.rs.core.Response.Status
 import org.keycloak.OAuth2Constants
+import org.keycloak.admin.client.CreatedResponseUtil
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.admin.client.KeycloakBuilder
 import org.keycloak.admin.client.resource.UsersResource
@@ -31,7 +32,7 @@ class AuthServiceImpl : AuthService {
     private lateinit var config: KeycloakAdminClientConfig
 
     override fun getClientToken(): AccessTokenResponse {
-        val accessToken = keycloak.tokenManager().grantToken()
+        val accessToken = keycloak.tokenManager().accessToken
 
         return accessToken
     }
@@ -49,30 +50,33 @@ class AuthServiceImpl : AuthService {
         userRepresentation.isEnabled = true
 
 
-        val credentials = CredentialRepresentation()
-        credentials.type = OAuth2Constants.PASSWORD
-        credentials.value = dto.password
-        credentials.isTemporary = false
-
-        userRepresentation.credentials = listOf(credentials)
-
         val createResponse = getUserResource().create(userRepresentation)
 
-        logger.debug("Response after registering a user {}", createResponse)
+        val userId = CreatedResponseUtil.getCreatedId(createResponse)
+        setCredential(userId, dto.password!!)
 
-        return if (createResponse.status == Status.CREATED.statusCode)
-            userRepresentation else throw ServiceException("Failed to create")
+        return if (createResponse.statusInfo.statusCode == Status.CREATED.statusCode)
+            getUserResource().get(userId)
+                .toRepresentation() else throw ServiceException("Failed to create user: ${createResponse.status}")
+    }
+
+    private fun setCredential(userId: String, password: String) {
+        val credential = CredentialRepresentation()
+        credential.type = OAuth2Constants.PASSWORD
+        credential.value = password
+        credential.isTemporary = false
+
+        getUserResource()[userId].resetPassword(credential)
     }
 
     override fun listRoles(): List<RoleRepresentation> {
-
         val roles = keycloak.realm(config.realm).roles()
         return roles.list()
     }
 
     override fun getUserToken(dto: GetUserTokenDTO): AccessTokenResponse {
 
-        val keycloakBuilder = KeycloakBuilder.builder()
+        val keycloak = KeycloakBuilder.builder()
             .serverUrl(config.serverUrl.get())
             .realm(config.realm)
             .clientId(config.clientId)
@@ -82,13 +86,12 @@ class AuthServiceImpl : AuthService {
             .password(dto.password)
             .build()
 
-        val tokenManager = keycloakBuilder.tokenManager()
-        logger.info("token manager $tokenManager")
-        return keycloakBuilder.tokenManager().accessToken
+        val tokenManager = keycloak.tokenManager()
+        logger.info("Token manager $tokenManager")
+        return keycloak.tokenManager().accessToken
     }
 
-    private fun getUserResource(): UsersResource = keycloak.realm(config.realm)
-        .users()
+    private fun getUserResource(): UsersResource = keycloak.realm(config.realm).users()
 
 
     @PreDestroy

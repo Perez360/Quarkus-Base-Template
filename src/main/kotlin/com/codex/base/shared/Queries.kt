@@ -1,6 +1,6 @@
 package com.codex.base.shared
 
-object Querys {
+object Queries {
     fun contains(columnName: String, placeholder: String): String =
         "$columnName LIKE CONCAT('%', CONCAT(:${placeholder}, '%'))"
 

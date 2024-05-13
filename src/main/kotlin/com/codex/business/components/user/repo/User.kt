@@ -4,16 +4,13 @@ import com.codex.base.DATE_TIME_PATTERN
 import com.codex.business.components.contact.repo.Contact
 import com.codex.business.components.user.enum.UserRole
 import com.codex.business.components.user.enum.UserStatus
-import com.fasterxml.jackson.annotation.JsonIgnore
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntityBase
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import org.jboss.resteasy.reactive.DateFormat
-import org.jboss.resteasy.reactive.DateFormat.DateTimeFormatterProvider
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 @Entity
@@ -38,13 +35,12 @@ data class User(
 
     var lastName: String? = null,
 
-    @JsonIgnore
     @OneToMany(
         mappedBy = "user",
         cascade = [CascadeType.ALL],
         orphanRemoval = true,
     )
-    var contacts: MutableList<Contact>? = mutableListOf(),
+    var contacts: MutableSet<Contact> = mutableSetOf(),
 
     var dob: LocalDate? = null,
 

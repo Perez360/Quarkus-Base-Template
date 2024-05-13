@@ -7,19 +7,19 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.StringReader
 
-class XMLUtils {
+object XMLUtils {
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    fun <T> fromXml(type: Class<T>, xml: String): T? {
+    fun <T> fromXml(clazz: Class<T>, xml: String): T? {
         //TODO
         return try {
-            val jaxbContext = JAXBContext.newInstance(type)
+            val jaxbContext = JAXBContext.newInstance(clazz)
                 .createUnmarshaller()
 
             jaxbContext.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true)
             jaxbContext.unmarshal(StringReader(xml)) as T
         } catch (jaxbEx: JAXBException) {
-            logger.info("Failed to convert xml to ${type.simpleName}: ${jaxbEx.message}")
+            logger.error("Failed to convert xml to ${clazz.simpleName}", jaxbEx.cause)
             null
         }
     }
@@ -32,7 +32,7 @@ class XMLUtils {
             jaxbContext.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true)
             jaxbContext.marshal(source, System.out) //TODO
         } catch (jaxbEx: JAXBException) {
-            logger.info("Failed to convert from ${S::class.simpleName} to xml: ${jaxbEx.message}")
+            logger.error("Failed to convert from ${S::class.simpleName} to xml: ${jaxbEx.message}")
         }
     }
 }

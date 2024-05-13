@@ -7,7 +7,6 @@ import com.codex.business.components.user.repo.User
 import com.codex.business.components.user.repo.UserRepo
 import com.codex.business.components.user.spec.UserSpec
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
-import io.quarkus.panache.common.Sort
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional

@@ -5,6 +5,7 @@ import com.codex.base.shared.PagedContent
 import com.codex.base.shared.Spec
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepositoryBase
+import io.quarkus.logging.Log
 import io.quarkus.panache.common.Page
 import io.quarkus.panache.common.Sort
 import org.slf4j.Logger

@@ -3,6 +3,7 @@ package com.codex.base.exceptions
 import com.codex.base.shared.APIResponse
 import com.codex.base.utils.wrapErrorInResponse
 import com.codex.base.utils.wrapFailureInResponse
+import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.Response.Status
 import jakarta.ws.rs.ext.ExceptionMapper
@@ -54,8 +55,8 @@ class GlobalExceptionHandler : ExceptionMapper<Exception> {
         }
 
 
-        logger.error("[ HTTP ERROR: GlobalExceptionHandler MESSAGE: {} || STATUS: {}", errorResponse.message, status)
+        logger.error("[GlobalExceptionHandler]: MESSAGE: {} || STATUS: {}", errorResponse.message, status, ex)
 
-        return Response.status(status).entity(errorResponse).build()
+        return Response.status(status).entity(errorResponse).type(MediaType.APPLICATION_JSON_TYPE).build()
     }
 }

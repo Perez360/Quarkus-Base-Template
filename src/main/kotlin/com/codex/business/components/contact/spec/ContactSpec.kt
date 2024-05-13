@@ -1,6 +1,6 @@
 package com.codex.business.components.contact.spec
 
-import com.codex.base.shared.Querys
+import com.codex.base.shared.Queries
 import com.codex.base.shared.Spec
 import com.codex.business.components.contact.enum.ContactType
 import io.quarkus.panache.common.Parameters
@@ -25,9 +25,9 @@ class ContactSpec : Spec() {
 
     override fun queryDefinition(entry: Map.Entry<String, Any?>): String {
         return when (entry.key) {
-            ::content.name -> Querys.contains(entry.key, entry.key)
-            ::user.name -> Querys.isEqualTo(entry.key + ".id", entry.key)
-            else -> Querys.isEqualTo(entry.key, entry.key)
+            ::content.name -> Queries.contains(entry.key, entry.key)
+            ::user.name -> Queries.isEqualTo(entry.key + ".id", entry.key)
+            else -> Queries.isEqualTo(entry.key, entry.key)
         }
     }
 

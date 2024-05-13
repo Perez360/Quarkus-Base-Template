@@ -74,9 +74,8 @@ class AuthResourceImpl : AuthResource {
     override fun listRoles(): APIResponse<List<RoleRepresentation>> {
         logger.info("Get role route has been triggered")
         val sessionId = Generator.generateSessionId()
-        val accessTokenResponse = authService.listRoles()
-        logger.info("{}: Successfully listed roles: {}", sessionId, accessTokenResponse)
         val roles = authService.listRoles()
+        logger.info("{}: Successfully listed roles: {}", sessionId, roles)
         return wrapSuccessInResponse(roles)
     }
 
