@@ -22,7 +22,7 @@ class UserServiceImpl : UserService {
         val oneUser = User()
         oneUser.firstName = dto.firstName
         oneUser.lastName = dto.lastName
-        oneUser.dob = dto.dob
+        oneUser.dateOfBirth = dto.dateOfBirth
         oneUser.status = dto.status
         oneUser.role = dto.role
 
@@ -35,7 +35,7 @@ class UserServiceImpl : UserService {
 
         oneUser.firstName = dto.firstName
         oneUser.lastName = dto.lastName
-        oneUser.dob = dto.dob
+        oneUser.dateOfBirth = dto.dateOfBirth
         oneUser.role = dto.role
         oneUser.status = dto.status
 

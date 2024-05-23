@@ -14,6 +14,7 @@ import org.keycloak.admin.client.Keycloak
 import org.keycloak.admin.client.KeycloakBuilder
 import org.keycloak.admin.client.resource.UsersResource
 import org.keycloak.representations.AccessTokenResponse
+import org.keycloak.representations.idm.ClientRepresentation
 import org.keycloak.representations.idm.CredentialRepresentation
 import org.keycloak.representations.idm.RoleRepresentation
 import org.keycloak.representations.idm.UserRepresentation
@@ -32,9 +33,7 @@ class AuthServiceImpl : AuthService {
     private lateinit var config: KeycloakAdminClientConfig
 
     override fun getClientToken(): AccessTokenResponse {
-        val accessToken = keycloak.tokenManager().accessToken
-
-        return accessToken
+        return keycloak.tokenManager().accessToken
     }
 
     override fun registerUser(dto: AddUserDTO): UserRepresentation {
@@ -75,6 +74,15 @@ class AuthServiceImpl : AuthService {
     }
 
     override fun getUserToken(dto: GetUserTokenDTO): AccessTokenResponse {
+        val clientRepresentation = ClientRepresentation()
+        clientRepresentation.clientId = ""
+        clientRepresentation.name = ""
+        clientRepresentation.secret = ""
+        clientRepresentation.isEnabled = true
+        clientRepresentation.authorizationServicesEnabled = true
+
+
+        keycloak.realm("").clients().create(clientRepresentation)
 
         val keycloak = KeycloakBuilder.builder()
             .serverUrl(config.serverUrl.get())
@@ -85,9 +93,6 @@ class AuthServiceImpl : AuthService {
             .username(dto.username)
             .password(dto.password)
             .build()
-
-        val tokenManager = keycloak.tokenManager()
-        logger.info("Token manager $tokenManager")
         return keycloak.tokenManager().accessToken
     }
 

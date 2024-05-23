@@ -8,4 +8,10 @@ class GetClientTokenDTO {
 
     @NotBlank(message = "Client secret must be provided")
     val clientSecret: String? = null
+
+    @NotBlank(message = "Admin username must be provided")
+    val adminUsername: String? = null
+
+    @NotBlank(message = "Admin password must be provided")
+    val adminPassword: String? = null
 }

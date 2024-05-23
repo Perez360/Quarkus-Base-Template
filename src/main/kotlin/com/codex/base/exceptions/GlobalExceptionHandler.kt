@@ -3,7 +3,6 @@ package com.codex.base.exceptions
 import com.codex.base.shared.APIResponse
 import com.codex.base.utils.wrapErrorInResponse
 import com.codex.base.utils.wrapFailureInResponse
-import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.Response.Status
 import jakarta.ws.rs.ext.ExceptionMapper
@@ -23,26 +22,10 @@ class GlobalExceptionHandler : ExceptionMapper<Exception> {
         val errorResponse: APIResponse<String>
 
         when (ex) {
-            is ServiceException -> {
-                status = Status.BAD_REQUEST
-                errorResponse = wrapFailureInResponse(ex.localizedMessage)
-            }
-
-            is IllegalArgumentException -> {
-                status = Status.BAD_REQUEST
-                errorResponse = wrapFailureInResponse(ex.localizedMessage)
-            }
-
-            is DateTimeParseException -> {
-                status = Status.BAD_REQUEST
-                errorResponse = wrapFailureInResponse(ex.localizedMessage)
-            }
-
-            is DateTimeException -> {
-                status = Status.BAD_REQUEST
-                errorResponse = wrapFailureInResponse(ex.localizedMessage)
-            }
-
+            is ServiceException,
+            is IllegalArgumentException,
+            is DateTimeParseException,
+            is DateTimeException,
             is ConstraintViolationException -> {
                 status = Status.BAD_REQUEST
                 errorResponse = wrapFailureInResponse(ex.localizedMessage)
@@ -54,9 +37,8 @@ class GlobalExceptionHandler : ExceptionMapper<Exception> {
             }
         }
 
-
         logger.error("[GlobalExceptionHandler]: MESSAGE: {} || STATUS: {}", errorResponse.message, status, ex)
 
-        return Response.status(status).entity(errorResponse).type(MediaType.APPLICATION_JSON_TYPE).build()
+        return Response.status(status).entity(errorResponse).build()
     }
 }

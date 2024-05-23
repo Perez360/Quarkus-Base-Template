@@ -6,7 +6,6 @@ import com.codex.base.utils.wrapSuccessInResponse
 import com.codex.business.components.auth.dto.AddUserDTO
 import com.codex.business.components.auth.dto.GetUserTokenDTO
 import com.codex.business.components.auth.service.AuthService
-import io.quarkus.security.Authenticated
 import io.quarkus.security.identity.SecurityIdentity
 import jakarta.annotation.security.RolesAllowed
 import jakarta.inject.Inject
@@ -23,7 +22,6 @@ import org.slf4j.LoggerFactory
 import java.security.Principal
 
 
-//@PermitAll
 @Path("/api/v1/auth")
 @Tag(name = "Auth", description = "Manages everything related to auth")
 @Produces(MediaType.APPLICATION_JSON)
@@ -41,7 +39,6 @@ class AuthResourceImpl : AuthResource {
     @GET
     @Path("/me")
     @NoCache
-    @Authenticated
     override fun me(): APIResponse<Principal> {
         return wrapSuccessInResponse(identity.principal)
     }

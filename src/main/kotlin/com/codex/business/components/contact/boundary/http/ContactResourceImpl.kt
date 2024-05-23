@@ -92,7 +92,7 @@ class ContactResourceImpl : ContactResource {
         val sessionId = Generator.generateSessionId()
         val pagedContacts: PagedContent<ContactDTO> = contactService.search(contactSpec)
             .toPagedContent(Mapper::convert)
-        logger.info("{}: Contacts to list in pages: {}", sessionId, pagedContacts)
+        logger.info("{}: Contacts to search in pages: {}", sessionId, pagedContacts)
         return wrapSuccessInResponse(pagedContacts)
     }
 

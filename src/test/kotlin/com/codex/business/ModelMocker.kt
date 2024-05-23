@@ -47,7 +47,7 @@ fun mockUserDTO(): UserDTO {
     dto.lastName = RandomStringUtils.randomAlphabetic(20)
     dto.role = UserRole.entries.random()
     dto.status = UserStatus.entries.random()
-    dto.dob = LocalDate.now().minusYears(20)
+    dto.dateOfBirth = LocalDate.now().minusYears(20)
     return dto
 }
 
@@ -57,7 +57,7 @@ fun mockAddUserDTO(): AddUserDTO {
     dto.lastName = RandomStringUtils.randomAlphabetic(20)
     dto.role = UserRole.entries.random()
     dto.status = UserStatus.entries.random()
-    dto.dob = LocalDate.now().minusYears(20)
+    dto.dateOfBirth = LocalDate.now().minusYears(20)
     return dto
 }
 
@@ -69,7 +69,7 @@ fun mockedUser(): User {
     user.lastName = RandomStringUtils.randomAlphabetic(20)
     user.role = UserRole.entries.random()
     user.status = UserStatus.entries.random()
-    user.dob = LocalDate.now().minusYears(20)
+    user.dateOfBirth = LocalDate.now().minusYears(20)
     return user
 }
 
@@ -80,6 +80,6 @@ fun mockedUpdateUser(): UpdateUserDTO {
     dto.lastName = RandomStringUtils.randomAlphabetic(20)
     dto.role = UserRole.entries.random()
     dto.status = UserStatus.entries.random()
-    dto.dob = LocalDate.now().minusYears(20)
+    dto.dateOfBirth = LocalDate.now().minusYears(20)
     return dto
 }

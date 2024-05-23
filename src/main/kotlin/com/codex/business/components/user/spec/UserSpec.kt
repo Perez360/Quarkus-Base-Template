@@ -19,8 +19,8 @@ class UserSpec : Spec() {
     @QueryParam("lastName")
     var lastName: String? = null
 
-    @QueryParam("dob")
-    var dob: LocalDate? = null
+    @QueryParam("dateOfBirth")
+    var dateOfBirth: LocalDate? = null
 
     @QueryParam("status")
     var status: UserStatus? = null
@@ -46,7 +46,7 @@ class UserSpec : Spec() {
     override fun toParameters(): Parameters = Parameters
         .with(::firstName.name, firstName)
         .and(::lastName.name, lastName)
-        .and(::dob.name, dob)
+        .and(::dateOfBirth.name, dateOfBirth)
         .and(::role.name, role)
         .and(::status.name, status)
         .and(::contactType.name, contactType)
@@ -70,7 +70,7 @@ class UserSpec : Spec() {
         return "UserSpec(" +
                 "firstName=$firstName, " +
                 "lastName=$lastName, " +
-                "dob=$dob, " +
+                "dateOfBirth=$dateOfBirth, " +
                 "status=$status, " +
                 "role=$role, " +
                 "contactType=$contactType, " +

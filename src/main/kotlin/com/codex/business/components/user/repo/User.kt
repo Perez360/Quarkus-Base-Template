@@ -19,7 +19,7 @@ import java.time.LocalDateTime
     indexes = [
         Index(name = "idx_firstName", columnList = "firstName"),
         Index(name = "idx_lastName", columnList = "lastName"),
-        Index(name = "idx_dob", columnList = "dob"),
+        Index(name = "idx_dateOfBirth", columnList = "dateOfBirth"),
         Index(name = "idx_status", columnList = "status"),
         Index(name = "idx_role", columnList = "role"),
         Index(name = "idx_user_createdAt", columnList = "createdAt"),
@@ -39,10 +39,11 @@ data class User(
         mappedBy = "user",
         cascade = [CascadeType.ALL],
         orphanRemoval = true,
+        fetch = FetchType.EAGER
     )
     var contacts: MutableSet<Contact> = mutableSetOf(),
 
-    var dob: LocalDate? = null,
+    var dateOfBirth: LocalDate? = null,
 
     @Enumerated(value = EnumType.STRING)
     var status: UserStatus? = UserStatus.ALIVE,

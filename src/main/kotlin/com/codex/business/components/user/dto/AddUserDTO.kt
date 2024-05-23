@@ -17,7 +17,7 @@ class AddUserDTO {
 
     @NotNull(message = "Date of birth field must not be null")
     @PastOrPresent(message = "Date cannot be greater the current date")
-    var dob: LocalDate? = null
+    var dateOfBirth: LocalDate? = null
 
     var status: UserStatus = UserStatus.ALIVE
 

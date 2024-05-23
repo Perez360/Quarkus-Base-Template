@@ -16,7 +16,6 @@ class AppLifecycleBean {
 
     fun onStart(@Observes ev: StartupEvent?) {
         logger.info("The application is starting...")
-
     }
 
     fun onStop(@Observes ev: ShutdownEvent?) {

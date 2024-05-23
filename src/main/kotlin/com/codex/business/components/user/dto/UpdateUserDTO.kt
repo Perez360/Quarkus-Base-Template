@@ -19,7 +19,7 @@ class UpdateUserDTO {
 
     @NotNull(message = "Date of birth field must be a valid date")
     @PastOrPresent(message = "Date cannot be greater the current date")
-    var dob: LocalDate? = null
+    var dateOfBirth: LocalDate? = null
 
     @NotNull(message = "Status field must be provided")
     var status: UserStatus? = null
