@@ -14,6 +14,7 @@ class AppLifecycleBean {
     @Inject
     private lateinit var logger: Logger
 
+
     fun onStart(@Observes ev: StartupEvent?) {
         logger.info("The application is starting...")
     }

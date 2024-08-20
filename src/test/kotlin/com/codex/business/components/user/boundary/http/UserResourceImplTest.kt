@@ -40,13 +40,6 @@ class UserResourceImplTest : AccessTokenProvider() {
     @InjectMock
     lateinit var userService: UserService
 
-    private lateinit var mockSettings: MockSettings
-
-    @BeforeEach
-    fun setUp() {
-        mockSettings = Mockito.withSettings().mockMaker(MockMakers.INLINE)
-    }
-
     @Test
     fun addUser() {
         //GIVEN
