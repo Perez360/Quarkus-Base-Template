@@ -1,11 +1,10 @@
 package com.codex.base.utils
 
 import com.codex.base.enums.SortOrder
+import com.codex.base.shared.BaseSpec
 import com.codex.base.shared.PagedContent
-import com.codex.base.shared.Spec
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepositoryBase
-import io.quarkus.logging.Log
 import io.quarkus.panache.common.Page
 import io.quarkus.panache.common.Sort
 import org.slf4j.Logger
@@ -14,7 +13,7 @@ import java.util.*
 import java.util.stream.Collectors
 
 interface CustomPanacheRepositoryBase<Entity : Any, Id : Any> : PanacheRepositoryBase<Entity, Id> {
-    fun search(spec: Spec): PanacheQuery<Entity> {
+    fun search(spec: BaseSpec): PanacheQuery<Entity> {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
         logger.info("Spec:: {}", spec)
@@ -41,10 +40,9 @@ interface CustomPanacheRepositoryBase<Entity : Any, Id : Any> : PanacheRepositor
 
         return this.find(query, sort, finalQueryParams).page(page)
     }
-
 }
 
-inline fun <Entity : Any, reified DTO> PanacheQuery<Entity>.toPagedContent(noinline mapFunction: (Entity) -> DTO): PagedContent<DTO> {
+fun <Entity : Any, DTO> PanacheQuery<Entity>.toPagedContent(mapFunc: (Entity) -> DTO): PagedContent<DTO> {
 
     return PagedContent(
         page = page().index,
@@ -55,7 +53,7 @@ inline fun <Entity : Any, reified DTO> PanacheQuery<Entity>.toPagedContent(noinl
         hasPreviousPage = hasPreviousPage(),
         isFirst = !hasPreviousPage(),
         isLast = !hasNextPage(),
-        data = list().map(mapFunction)
+        data = list().map(mapFunc)
     )
 }
 

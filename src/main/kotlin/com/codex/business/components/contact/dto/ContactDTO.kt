@@ -10,4 +10,16 @@ data class ContactDTO(
     val createdAt: LocalDateTime? = null,
     val modifiedAt: LocalDateTime? = null,
     val version: Long? = null
-)
+
+) {
+    override fun toString(): String {
+        return "ContactDTO(" +
+                "id=$id, " +
+                "content=$content, " +
+                "type=$type, " +
+                "createdAt=$createdAt, " +
+                "modifiedAt=$modifiedAt, " +
+                "version=$version" +
+                ")"
+    }
+}

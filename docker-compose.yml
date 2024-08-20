@@ -12,8 +12,6 @@ services:
         condition: service_started
     ports:
       - "8081:8080"
-    networks:
-      - my-network
 
 
   phpmyadmin:
@@ -26,14 +24,11 @@ services:
       PMA_HOSTS: mariadb-service
       PMA_PORTS: 3306
       PMA_ARBITRARY: 1
-    networks:
-      - my-network
 
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
-    hostname: keycloak-service
     ports:
       - "8080:8080"
     depends_on:
@@ -42,7 +37,7 @@ services:
       KEYCLOAK_ADMIN: quarkus
       KEYCLOAK_ADMIN_PASSWORD: quarkus@123
       KC_DB: mariadb
-      KC_DB_USERNAME: quarkus
+      KC_DB_USERNAME: root
       KC_DB_PASSWORD: quarkus@123
       KC_DB_URL: jdbc:mariadb://mariadb-service:3306/keycloak
       KC_DB_POOL_INITIAL_SIZE: 5
@@ -54,30 +49,17 @@ services:
       - "--import-realm"
     volumes:
       - ./realm:/opt/keycloak/data/import
-    networks:
-      - my-network
 
 
   mariadb:
     image: mariadb:latest
     container_name: mariadb
-    hostname: mariadb-service
     ports:
       - "3306:3306"
     environment:
-      MARIADB_ROOT_PASSWORD: PEREZ360
-      MARIADB_USER: quarkus
-      MARIADB_PASSWORD: quarkus@123
+      MARIADB_ROOT_PASSWORD: quarkus@123
       MARIADB_DATABASE: quarkus
-      MYSQL_INITDB_SKIP_TZINFO: 1
-      MYSQL_INITDB_WD: /docker-entrypoint-initdb.d
+      MARIADB_INITDB_SKIP_TZINFO: 1
+      MARIADB_INITDB_WD: /docker-entrypoint-initdb.d
     volumes:
       - ./initdb:/docker-entrypoint-initdb.d
-    networks:
-      - my-network
-
-networks:
-  my-network:
-    name: my-network
-    driver: bridge
-    external: true

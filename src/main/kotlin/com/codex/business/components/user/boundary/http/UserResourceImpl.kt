@@ -75,7 +75,7 @@ class UserResourceImpl : UserResource {
 
     @GET
     @Path("/list")
-//    @RolesAllowed("ADMIN", "USER")
+    @RolesAllowed("ADMIN", "USER")
     override fun listAllUsers(
         @QueryParam("page") @DefaultValue("0") page: Int,
         @QueryParam("size") @DefaultValue("50") size: Int

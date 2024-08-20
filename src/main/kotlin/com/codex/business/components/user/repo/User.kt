@@ -43,6 +43,8 @@ data class User(
     )
     var contacts: MutableSet<Contact> = mutableSetOf(),
 
+    var isEnabled: Boolean? = true,
+
     var dateOfBirth: LocalDate? = null,
 
     @Enumerated(value = EnumType.STRING)
@@ -62,4 +64,20 @@ data class User(
     @Version
     val version: Long? = null
 
-) : PanacheEntityBase
+) : PanacheEntityBase {
+    override fun toString(): String {
+        return "User(" +
+                "id=$id, " +
+                "firstName=$firstName, " +
+                "lastName=$lastName, " +
+                "isEnabled=$isEnabled, " +
+                "contacts=$contacts, " +
+                "dateOfBirth=$dateOfBirth, " +
+                "status=$status, " +
+                "role=$role, " +
+                "createdAt=$createdAt, " +
+                "modifiedAt=$modifiedAt, " +
+                "version=$version" +
+                ")"
+    }
+}
