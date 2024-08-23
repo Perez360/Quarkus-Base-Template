@@ -26,4 +26,16 @@ class UpdateUserDTO {
 
     @NotNull(message = "Role field must be provided")
     var role: UserRole? = null
+
+
+    override fun toString(): String {
+        return "UpdateUserDTO(" +
+                "id=$id, " +
+                "firstName=$firstName, " +
+                "lastName=$lastName, " +
+                "dateOfBirth=$dateOfBirth, " +
+                "status=$status, " +
+                "role=$role" +
+                ")"
+    }
 }

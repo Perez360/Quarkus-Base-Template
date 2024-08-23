@@ -8,8 +8,8 @@ import jakarta.ws.rs.QueryParam
 
 /*
 * Use <var> keyword to define query params
-* */
-abstract class Spec {
+*/
+abstract class BaseSpec {
 
     @DefaultValue(value = "0")
     @QueryParam(value = "page")
@@ -24,7 +24,7 @@ abstract class Spec {
 
     @DefaultValue(value = "ASC")
     @QueryParam(value = "sortOrder")
-    var sortOrder: SortOrder? = SortOrder.ASC
+    var sortOrder: SortOrder? = SortOrder.DESC
 
 
     @DefaultValue(value = "AND")

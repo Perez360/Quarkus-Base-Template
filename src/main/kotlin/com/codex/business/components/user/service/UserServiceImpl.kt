@@ -67,9 +67,5 @@ class UserServiceImpl : UserService {
         return oneUser
     }
 
-    override fun deleteAll(): Boolean {
-        val deleteCount = userRepo.deleteAll()
-        return deleteCount >= 0
-    }
-
+    override fun deleteAll(): Boolean = userRepo.deleteAll() >= 0
 }

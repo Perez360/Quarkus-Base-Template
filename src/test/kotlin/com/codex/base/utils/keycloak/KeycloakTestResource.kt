@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap
 
 
-class KeycloakTestResourse : QuarkusTestResourceLifecycleManager {
+class KeycloakTestResource : QuarkusTestResourceLifecycleManager {
     private val contextPath = "/realms/codex"
     private lateinit var keycloakContainer: KeycloakContainer
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -22,9 +22,10 @@ class KeycloakTestResourse : QuarkusTestResourceLifecycleManager {
 
 
         keycloakContainer = KeycloakContainer("quay.io/keycloak/keycloak:latest")
-            .withRealmImportFile("/realm-export.json")
+            .withRealmImportFile("/realm.json")
             .withAccessToHost(true)
             .withExposedPorts(8080)
+            .withReuse(true)
 
         keycloakContainer.start()
 
@@ -59,7 +60,9 @@ class KeycloakTestResourse : QuarkusTestResourceLifecycleManager {
     }
 
     override fun stop() {
-        logger.debug("Stopping keycloak test lifecycle...")
-        keycloakContainer.stop()
+        if (::keycloakContainer.isInitialized && keycloakContainer.isRunning) {
+            logger.debug("Stopping Keycloak test lifecycle...")
+            keycloakContainer.stop()
+        }
     }
 }

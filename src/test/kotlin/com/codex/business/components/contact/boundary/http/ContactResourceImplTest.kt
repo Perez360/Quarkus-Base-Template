@@ -1,16 +1,17 @@
-package com.codex.business.components.user.boundary.http
+package com.codex.business.components.contact.boundary.http
 
 import com.codex.base.CODE_FAILURE
 import com.codex.base.CODE_SUCCESS
 import com.codex.base.SYSTEM_CODE_FAILURE
 import com.codex.base.SYSTEM_CODE_SUCCESS
 import com.codex.base.exceptions.ServiceException
-import com.codex.business.components.user.repo.User
-import com.codex.business.components.user.service.UserService
-import com.codex.business.components.user.spec.UserSpec
-import com.codex.business.mockAddUserDTO
-import com.codex.business.mockedUpdateUser
-import com.codex.business.mockedUser
+import com.codex.business.components.contact.repo.Contact
+import com.codex.business.components.contact.service.ContactService
+import com.codex.business.components.contact.spec.ContactSpec
+import com.codex.business.components.user.boundary.http.UserResourceImpl
+import com.codex.business.mockAddContactDTO
+import com.codex.business.mockedContact
+import com.codex.business.mockedUpdateContactDTO
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 import io.quarkus.panache.common.Page
 import io.quarkus.test.InjectMock
@@ -21,33 +22,32 @@ import jakarta.inject.Inject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import java.time.LocalDate
 
 
 @QuarkusTest
 @TestHTTPEndpoint(value = UserResourceImpl::class)
-class UserResourceImplTest {
+class ContactResourceImplTest {
 
     @Inject
-    private lateinit var userResource: UserResource
+    private lateinit var contactResource: ContactResource
 
     @InjectMock
-    private lateinit var userService: UserService
+    private lateinit var contactService: ContactService
 
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
     fun addUser_OK() {
         //GIVEN
-        val user = mockedUser()
-        val dto = mockAddUserDTO()
-        Mockito.`when`(userService.add(dto)).thenReturn(user)
+        val user = mockedContact()
+        val dto = mockAddContactDTO()
+        Mockito.`when`(contactService.add(dto)).thenReturn(user)
 
         //WHEN
-        val result = userResource.addUser(dto)
+        val result = contactResource.addContact(dto)
 
         //THEN
-        Mockito.verify(userService).add(dto)
+        Mockito.verify(contactService).add(dto)
         Assertions.assertEquals(result.code, CODE_SUCCESS)
         Assertions.assertEquals(result.systemCode, SYSTEM_CODE_SUCCESS)
         Assertions.assertNotNull(result.data)
@@ -55,17 +55,17 @@ class UserResourceImplTest {
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
-    fun addUser_KO() {
+    fun addContact_KO() {
         //GIVEN
-        val dto = mockAddUserDTO()
-        Mockito.`when`(userService.add(dto)).thenThrow(ServiceException::class.java)
+        val dto = mockAddContactDTO()
+        Mockito.`when`(contactService.add(dto)).thenThrow(ServiceException::class.java)
 
         Assertions.assertThrowsExactly(ServiceException::class.java) {
             //WHEN
-            val result = userResource.addUser(dto)
+            val result = contactResource.addContact(dto)
 
             //THEN
-            Mockito.verify(userService).add(dto)
+            Mockito.verify(contactService).add(dto)
             Assertions.assertEquals(result.code, CODE_FAILURE)
             Assertions.assertEquals(result.systemCode, SYSTEM_CODE_FAILURE)
             Assertions.assertNull(result.data)
@@ -75,18 +75,17 @@ class UserResourceImplTest {
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
-    fun updateUser_OK() {
+    fun updateContact_OK() {
         //GIVEN
-        val user = mockedUser()
-        val dto = mockedUpdateUser()
-        dto.dateOfBirth= LocalDate.now().minusYears(1)
-        Mockito.`when`(userService.update(dto)).thenReturn(user)
+        val contact = mockedContact()
+        val dto = mockedUpdateContactDTO()
+        Mockito.`when`(contactService.update(dto)).thenReturn(contact)
 
         //WHEN
-        val result = userResource.updateUser(dto)
+        val result = contactResource.updateContact(dto)
 
         //THEN
-        Mockito.verify(userService).update(dto)
+        Mockito.verify(contactService).update(dto)
         Assertions.assertEquals(result.code, CODE_SUCCESS)
         Assertions.assertEquals(result.systemCode, SYSTEM_CODE_SUCCESS)
         Assertions.assertNotNull(result.data)
@@ -95,18 +94,18 @@ class UserResourceImplTest {
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
-    fun updateUser_KO() {
+    fun updateContact_KO() {
         //GIVEN
-        val dto = mockedUpdateUser()
-        Mockito.`when`(userService.update(dto)).thenThrow(ServiceException::class.java)
+        val dto = mockedUpdateContactDTO()
+        Mockito.`when`(contactService.update(dto)).thenThrow(ServiceException::class.java)
 
 
         Assertions.assertThrowsExactly(ServiceException::class.java) {
             //WHEN
-            val result = userResource.updateUser(dto)
+            val result = contactResource.updateContact(dto)
 
             //THEN
-            Mockito.verify(userService).update(dto)
+            Mockito.verify(contactService).update(dto)
             Assertions.assertEquals(result.code, CODE_FAILURE)
             Assertions.assertEquals(result.systemCode, SYSTEM_CODE_FAILURE)
             Assertions.assertNull(result.data)
@@ -116,16 +115,16 @@ class UserResourceImplTest {
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN", "USER"])
-    fun getByUserId_OK() {
+    fun getByContactId_OK() {
         //GIVEN
-        val user = mockedUser()
-        Mockito.`when`(userService.getById(user.id!!)).thenReturn(user)
+        val user = mockedContact()
+        Mockito.`when`(contactService.getById(user.id!!)).thenReturn(user)
 
         //WHEN
-        val result = userResource.getByUserId(user.id!!)
+        val result = contactResource.getByContactId(user.id!!)
 
         //THEN
-        Mockito.verify(userService).getById(user.id!!)
+        Mockito.verify(contactService).getById(user.id!!)
         Assertions.assertEquals(result.code, CODE_SUCCESS)
         Assertions.assertEquals(result.systemCode, SYSTEM_CODE_SUCCESS)
         Assertions.assertNotNull(result.data)
@@ -133,17 +132,17 @@ class UserResourceImplTest {
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN", "USER"])
-    fun getByUserId_KO() {
+    fun getByContactId_KO() {
         //GIVEN
-        val user = mockedUser()
-        Mockito.`when`(userService.getById(user.id!!)).thenThrow(ServiceException::class.java)
+        val user = mockedContact()
+        Mockito.`when`(contactService.getById(user.id!!)).thenThrow(ServiceException::class.java)
 
         Assertions.assertThrowsExactly(ServiceException::class.java) {
             //WHEN
-            val result = userResource.getByUserId(user.id!!)
+            val result = contactResource.getByContactId(user.id!!)
 
             //THEN
-            Mockito.verify(userService).getById(user.id!!)
+            Mockito.verify(contactService).getById(user.id!!)
             Assertions.assertEquals(result.code, CODE_FAILURE)
             Assertions.assertEquals(result.systemCode, SYSTEM_CODE_FAILURE)
             Assertions.assertNull(result.data)
@@ -152,21 +151,21 @@ class UserResourceImplTest {
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN", "USER"])
-    fun listAllUsers_with_some_data() {
+    fun listAllContacts_with_some_data() {
         //GIVEN
         val page = 1
         val size = 50
-        val users = listOf(mockedUser(), mockedUser())
-        val panacheQuery = Mockito.mock<PanacheQuery<User>>()
+        val users = listOf(mockedContact(), mockedContact())
+        val panacheQuery = Mockito.mock<PanacheQuery<Contact>>()
         Mockito.`when`(panacheQuery.list()).thenReturn(users)
         Mockito.`when`(panacheQuery.page()).thenReturn(Page.of(page, size))
-        Mockito.`when`(userService.list(page, size)).thenReturn(panacheQuery)
+        Mockito.`when`(contactService.list(page, size)).thenReturn(panacheQuery)
 
         //WHEN
-        val result = userResource.listAllUsers(page, size)
+        val result = contactResource.listAllContacts(page, size)
 
         //THEN
-        Mockito.verify(userService).list(page, size)
+        Mockito.verify(contactService).list(page, size)
         Assertions.assertEquals(result.code, CODE_SUCCESS)
         Assertions.assertEquals(result.systemCode, SYSTEM_CODE_SUCCESS)
         Assertions.assertFalse(result.data?.data.isNullOrEmpty())
@@ -176,20 +175,20 @@ class UserResourceImplTest {
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN", "USER"])
-    fun listAllUsers_with_no_data() {
+    fun listAllContacts_with_no_data() {
         //GIVEN
         val page = 1
         val size = 50
-        val panacheQuery = Mockito.mock<PanacheQuery<User>>()
+        val panacheQuery = Mockito.mock<PanacheQuery<Contact>>()
         Mockito.`when`(panacheQuery.list()).thenReturn(emptyList())
         Mockito.`when`(panacheQuery.page()).thenReturn(Page.of(page, size))
-        Mockito.`when`(userService.list(page, size)).thenReturn(panacheQuery)
+        Mockito.`when`(contactService.list(page, size)).thenReturn(panacheQuery)
 
         //WHEN
-        val result = userResource.listAllUsers(page, size)
+        val result = contactResource.listAllContacts(page, size)
 
         //THEN
-        Mockito.verify(userService).list(page, size)
+        Mockito.verify(contactService).list(page, size)
         Assertions.assertEquals(result.code, CODE_SUCCESS)
         Assertions.assertEquals(result.systemCode, SYSTEM_CODE_SUCCESS)
         Assertions.assertTrue(result.data?.data.isNullOrEmpty())
@@ -199,22 +198,22 @@ class UserResourceImplTest {
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN", "USER"])
-    fun searchUsers_with_some_data() {
+    fun searchContacts_with_some_data() {
         //GIVEN
-        val spec = UserSpec()
-        spec.firstName = "Isaac"
-        val users = listOf(mockedUser(), mockedUser())
-        val panacheQuery = Mockito.mock<PanacheQuery<User>>()
-        Mockito.`when`(panacheQuery.list()).thenReturn(users)
+        val spec = ContactSpec()
+        spec.content = "0249065507"
+        val contacts = listOf(mockedContact(), mockedContact())
+        val panacheQuery = Mockito.mock<PanacheQuery<Contact>>()
+        Mockito.`when`(panacheQuery.list()).thenReturn(contacts)
         Mockito.`when`(panacheQuery.page()).thenReturn(Page.of(spec.page!!, spec.size!!))
-        Mockito.`when`(userService.search(spec)).thenReturn(panacheQuery)
+        Mockito.`when`(contactService.search(spec)).thenReturn(panacheQuery)
 
         //WHEN
-        val result = userResource.searchUsers(spec)
+        val result = contactResource.searchContacts(spec)
 
 
         //THEN
-        Mockito.verify(userService).search(spec)
+        Mockito.verify(contactService).search(spec)
         Assertions.assertEquals(result.code, CODE_SUCCESS)
         Assertions.assertEquals(result.systemCode, SYSTEM_CODE_SUCCESS)
         Assertions.assertFalse(result.data?.data.isNullOrEmpty())
@@ -224,21 +223,20 @@ class UserResourceImplTest {
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN", "USER"])
-    fun searchUsers_with_no_data() {
+    fun searchContacts_with_no_data() {
         //GIVEN
-        val spec = UserSpec()
-        spec.firstName = "Isaac"
-        val panacheQuery = Mockito.mock<PanacheQuery<User>>()
+        val spec = ContactSpec()
+        spec.content = "0249065507"
+        val panacheQuery = Mockito.mock<PanacheQuery<Contact>>()
         Mockito.`when`(panacheQuery.list()).thenReturn(emptyList())
         Mockito.`when`(panacheQuery.page()).thenReturn(Page.of(spec.page!!, spec.size!!))
-        Mockito.`when`(userService.search(spec)).thenReturn(panacheQuery)
+        Mockito.`when`(contactService.search(spec)).thenReturn(panacheQuery)
 
         //WHEN
-        val result = userResource.searchUsers(spec)
-
+        val result = contactResource.searchContacts(spec)
 
         //THEN
-        Mockito.verify(userService).search(spec)
+        Mockito.verify(contactService).search(spec)
         Assertions.assertEquals(result.code, CODE_SUCCESS)
         Assertions.assertEquals(result.systemCode, SYSTEM_CODE_SUCCESS)
         Assertions.assertTrue(result.data?.data.isNullOrEmpty())
@@ -248,16 +246,16 @@ class UserResourceImplTest {
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
-    fun deleteUser_OK() {
+    fun deleteContact_OK() {
         //GIVEN
-        val user = mockedUser()
-        Mockito.`when`(userService.delete(user.id!!)).thenReturn(user)
+        val contact = mockedContact()
+        Mockito.`when`(contactService.delete(contact.id!!)).thenReturn(contact)
 
         //WHEN
-        val result = userResource.deleteUser(user.id!!)
+        val result = contactResource.deleteContact(contact.id!!)
 
         //THEN
-        Mockito.verify(userService).delete(user.id!!)
+        Mockito.verify(contactService).delete(contact.id!!)
         Assertions.assertEquals(result.code, CODE_SUCCESS)
         Assertions.assertEquals(result.systemCode, SYSTEM_CODE_SUCCESS)
         Assertions.assertNotNull(result.data)
@@ -266,17 +264,17 @@ class UserResourceImplTest {
 
     @Test
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
-    fun deleteUser_KO() {
+    fun deleteContact_KO() {
         //GIVEN
-        val user = mockedUser()
-        Mockito.`when`(userService.delete(user.id!!)).thenThrow(ServiceException::class.java)
+        val contact = mockedContact()
+        Mockito.`when`(contactService.delete(contact.id!!)).thenThrow(ServiceException::class.java)
 
         Assertions.assertThrowsExactly(ServiceException::class.java) {
             //WHEN
-            val result = userResource.deleteUser(user.id!!)
+            val result = contactResource.deleteContact(contact.id!!)
 
             //THEN
-            Mockito.verify(userService).delete(user.id!!)
+            Mockito.verify(contactService).delete(contact.id!!)
             Assertions.assertEquals(result.code, CODE_FAILURE)
             Assertions.assertEquals(result.systemCode, SYSTEM_CODE_FAILURE)
             Assertions.assertNull(result.data)

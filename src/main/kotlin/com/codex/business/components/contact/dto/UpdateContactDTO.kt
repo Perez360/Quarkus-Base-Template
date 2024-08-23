@@ -10,11 +10,21 @@ class UpdateContactDTO {
     var id: String? = null
 
     @NotBlank(message = "User id content field must be provided")
-    var useId: String? = null
+    var userId: String? = null
 
     @NotBlank(message = "Content field must be provided")
     var content: String? = null
 
     @NotNull(message = "Type field must be provided")
     var type: ContactType? = null
+
+
+    override fun toString(): String {
+        return "UpdateContactDTO(" +
+                "id=$id, " +
+                "useId=$userId, " +
+                "content=$content, " +
+                "type=$type" +
+                ")"
+    }
 }

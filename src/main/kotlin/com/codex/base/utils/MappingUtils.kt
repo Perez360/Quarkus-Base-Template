@@ -7,10 +7,11 @@ import org.modelmapper.convention.MatchingStrategies
 
 class MapperDto : ModelMapper() {
     init {
-        configuration.matchingStrategy = MatchingStrategies.STRICT
-        configuration.fieldAccessLevel = Configuration.AccessLevel.PRIVATE
-        configuration.isFieldMatchingEnabled = true
-        configuration.isSkipNullEnabled = true
+        configuration.setSkipNullEnabled(true)
+        configuration.setMatchingStrategy(MatchingStrategies.LOOSE)
+        configuration.setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
+        configuration.setFieldMatchingEnabled(true)
+        configuration.setSkipNullEnabled(true)
     }
 }
 

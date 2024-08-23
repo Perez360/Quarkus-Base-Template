@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.codex</groupId>
     <artifactId>quarkus-base-template</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <properties>
         <compiler-plugin.version>3.12.1</compiler-plugin.version>
-        <kotlin.version>1.9.24</kotlin.version>
+        <kotlin.version>1.9.22</kotlin.version>
         <maven.compiler.release>17</maven.compiler.release>
         <maven.home>/usr/share/maven</maven.home>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -41,10 +41,10 @@
             <artifactId>libphonenumber</artifactId>
             <version>8.13.22</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.quarkus</groupId>-->
-<!--            <artifactId>quarkus-scheduler</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.quarkus</groupId>-->
+        <!--            <artifactId>quarkus-scheduler</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-openapi</artifactId>
@@ -76,6 +76,10 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-kotlin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-cache</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -119,12 +123,27 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.jeasy</groupId>
+            <artifactId>easy-random-core</artifactId>
+            <version>5.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-test-security</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-reactive</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-rest-client-reactive-jackson</artifactId>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
@@ -146,15 +165,6 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-jacoco</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${kotlin.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

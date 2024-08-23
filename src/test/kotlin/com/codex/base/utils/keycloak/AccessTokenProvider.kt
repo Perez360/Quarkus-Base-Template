@@ -7,11 +7,11 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 
-@QuarkusTestResource(KeycloakTestResourse::class, restrictToAnnotatedClass = false)
+@QuarkusTestResource(KeycloakTestResource::class, restrictToAnnotatedClass = true)
 open class AccessTokenProvider {
     @Inject
     protected lateinit var config: KeycloakConfig
-    protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
 
     protected fun getAccessToken(userName: String, password: String): String {

@@ -8,7 +8,6 @@ import com.codex.business.components.contact.repo.ContactRepo
 import com.codex.business.components.contact.spec.ContactSpec
 import com.codex.business.components.user.repo.UserRepo
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
-import io.quarkus.panache.common.Sort
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
@@ -17,7 +16,7 @@ import org.slf4j.LoggerFactory
 
 @ApplicationScoped
 @Transactional
-class ContactServiceImp : ContactService {
+class ContactServiceImpl : ContactService {
 
     @Inject
     private lateinit var contactRepo: ContactRepo
@@ -44,7 +43,7 @@ class ContactServiceImp : ContactService {
     override fun update(dto: UpdateContactDTO): Contact {
 
         val oneContact = getById(dto.id!!)
-        val oneUser = userRepo.findById(dto.useId!!)
+        val oneUser = userRepo.findById(dto.userId!!)
 
         oneContact.user = oneUser
         oneContact.content = dto.content
@@ -62,7 +61,7 @@ class ContactServiceImp : ContactService {
     }
 
     override fun list(page: Int, size: Int): PanacheQuery<Contact> {
-        val panacheQuery: PanacheQuery<Contact> = contactRepo.findAll(Sort.by(Contact::createdAt.name))
+        val panacheQuery: PanacheQuery<Contact> = contactRepo.findAll()
             .page(page, size)
 
         return panacheQuery

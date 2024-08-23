@@ -25,7 +25,7 @@ import java.time.LocalDateTime
 data class Contact(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    val id: String? = null,
+    var id: String? = null,
 
     var content: String? = null,
 
@@ -47,4 +47,16 @@ data class Contact(
     @Version
     val version: Long? = null
 
-) : PanacheEntityBase
+) : PanacheEntityBase {
+    override fun toString(): String {
+        return "Contact(" +
+                "id=$id, " +
+                "content=$content, " +
+                "type=$type, " +
+                "user=$user, " +
+                "createdAt=$createdAt, " +
+                "modifiedAt=$modifiedAt, " +
+                "version=$version" +
+                ")"
+    }
+}

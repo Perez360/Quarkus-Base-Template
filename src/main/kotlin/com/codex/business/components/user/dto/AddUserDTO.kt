@@ -18,9 +18,17 @@ class AddUserDTO {
     @NotNull(message = "Date of birth field must not be null")
     @PastOrPresent(message = "Date cannot be greater the current date")
     var dateOfBirth: LocalDate? = null
-
     var status: UserStatus = UserStatus.ALIVE
-
     var role: UserRole = UserRole.USER
 
+
+    override fun toString(): String {
+        return "AddUserDTO(" +
+                "firstName=$firstName, " +
+                "lastName=$lastName, " +
+                "dateOfBirth=$dateOfBirth, " +
+                "status=$status, " +
+                "role=$role" +
+                ")"
+    }
 }
