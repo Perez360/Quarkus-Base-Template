@@ -4,6 +4,7 @@ import com.codex.business.components.contact.dto.AddContactDTO
 import com.codex.business.components.contact.dto.ContactDTO
 import com.codex.business.components.contact.dto.UpdateContactDTO
 import com.codex.business.components.contact.enum.ContactType
+import com.codex.business.components.contact.repo.Contact
 import com.codex.business.components.user.dto.AddUserDTO
 import com.codex.business.components.user.dto.UpdateUserDTO
 import com.codex.business.components.user.dto.UserDTO
@@ -19,11 +20,10 @@ fun mockAddContactDTO(): AddContactDTO {
     dto.userId = UUID.randomUUID().toString()
     dto.content = RandomStringUtils.randomNumeric(10)
     dto.type = ContactType.entries.random()
-
     return dto
 }
 
-fun mockContactDTO(): ContactDTO {
+fun mockedContactDTO(): ContactDTO {
     val dto = ContactDTO()
     dto.id = UUID.randomUUID().toString()
     dto.content = RandomStringUtils.randomNumeric(10)
@@ -31,16 +31,25 @@ fun mockContactDTO(): ContactDTO {
     return dto
 }
 
-fun mockUpdateContactDTO(): UpdateContactDTO {
+fun mockedContact(): Contact {
+    val contact = Contact()
+    contact.id = RandomStringUtils.randomAlphabetic(10)
+    contact.content = RandomStringUtils.randomNumeric(10)
+    contact.type = ContactType.entries.random()
+    contact.type = ContactType.entries.random()
+    return contact
+}
+
+fun mockedUpdateContactDTO(): UpdateContactDTO {
     val dto = UpdateContactDTO()
     dto.id = UUID.randomUUID().toString()
-    dto.useId = UUID.randomUUID().toString()
+    dto.userId = UUID.randomUUID().toString()
     dto.content = RandomStringUtils.randomNumeric(10)
     dto.type = ContactType.entries.random()
     return dto
 }
 
-fun mockUserDTO(): UserDTO {
+fun mockedUserDTO(): UserDTO {
     val dto = UserDTO()
     dto.id = UUID.randomUUID().toString()
     dto.firstName = RandomStringUtils.randomAlphabetic(20)

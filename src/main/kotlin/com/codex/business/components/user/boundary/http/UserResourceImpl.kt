@@ -14,11 +14,13 @@ import com.codex.business.components.user.service.UserService
 import com.codex.business.components.user.spec.UserSpec
 import io.quarkus.security.Authenticated
 import jakarta.annotation.security.RolesAllowed
+import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme
 import org.eclipse.microprofile.openapi.annotations.tags.Tag
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -28,6 +30,7 @@ import org.slf4j.LoggerFactory
 @Produces(MediaType.APPLICATION_JSON)
 @SecurityScheme(securitySchemeName = "keycloak")
 @Tag(name = "Users", description = "Manages everything related to users")
+@ApplicationScoped
 class UserResourceImpl : UserResource {
 
     @Inject
@@ -75,7 +78,7 @@ class UserResourceImpl : UserResource {
 
     @GET
     @Path("/list")
-//    @RolesAllowed("ADMIN", "USER")
+    @RolesAllowed("ADMIN", "USER")
     override fun listAllUsers(
         @QueryParam("page") @DefaultValue("0") page: Int,
         @QueryParam("size") @DefaultValue("50") size: Int

@@ -29,8 +29,8 @@ class UserServiceImplTest {
 
     @Inject
     private lateinit var underTest: UserService
+    private lateinit var mockSettings:MockSettings
 
-    private lateinit var mockSettings: MockSettings
 
     @BeforeAll
     fun setUp() {

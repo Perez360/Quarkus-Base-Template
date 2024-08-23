@@ -11,4 +11,12 @@ class AddContactDTO {
 
     @NotBlank(message = "Contact owner field must be provided")
     var userId: String? = null
+
+    override fun toString(): String {
+        return "AddContactDTO(" +
+                "content=$content, " +
+                "type=$type, " +
+                "userId=$userId" +
+                ")"
+    }
 }
