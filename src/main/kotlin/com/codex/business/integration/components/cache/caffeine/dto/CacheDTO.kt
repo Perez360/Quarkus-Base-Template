@@ -1,4 +1,4 @@
-package com.codex.business.integration.components.cache.dto
+package com.codex.business.integration.components.cache.caffeine.dto
 
 
 data class CacheDTO<T>(

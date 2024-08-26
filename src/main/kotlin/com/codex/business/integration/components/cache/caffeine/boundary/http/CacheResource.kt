@@ -1,7 +1,7 @@
 import com.codex.base.shared.APIResponse
-import com.codex.business.integration.components.cache.dto.AddCacheDTO
-import com.codex.business.integration.components.cache.dto.CacheDTO
-import com.codex.business.integration.components.cache.dto.UpdateCacheDTO
+import com.codex.business.integration.components.cache.caffeine.dto.AddCacheDTO
+import com.codex.business.integration.components.cache.caffeine.dto.CacheDTO
+import com.codex.business.integration.components.cache.caffeine.dto.UpdateCacheDTO
 import jakarta.validation.Valid
 
 

@@ -19,7 +19,6 @@ class CustomObjectMapperCustomizer : ObjectMapperCustomizer {
             .disable(DeserializationFeature.FAIL_ON_NULL_CREATOR_PROPERTIES)
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-            .registerModules(SimpleModule().apply { addSerializer(Any::class.java, GenericSerializer()) })
             .findAndRegisterModules()
     }
 }

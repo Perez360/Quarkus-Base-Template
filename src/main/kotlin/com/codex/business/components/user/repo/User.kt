@@ -1,6 +1,5 @@
 package com.codex.business.components.user.repo
 
-import com.codex.base.DATE_TIME_PATTERN
 import com.codex.business.components.contact.repo.Contact
 import com.codex.business.components.user.enum.UserRole
 import com.codex.business.components.user.enum.UserStatus
@@ -8,7 +7,6 @@ import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntityBase
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
-import org.jboss.resteasy.reactive.DateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -26,14 +24,14 @@ import java.time.LocalDateTime
         Index(name = "idx_user_modifiedAt", columnList = "modifiedAt"),
     ]
 )
-data class User(
+class User : PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    var id: String? = null,
+    var id: String? = null
 
-    var firstName: String? = null,
+    var firstName: String? = null
 
-    var lastName: String? = null,
+    var lastName: String? = null
 
     @OneToMany(
         mappedBy = "user",
@@ -41,30 +39,27 @@ data class User(
         orphanRemoval = true,
         fetch = FetchType.EAGER
     )
-    var contacts: MutableSet<Contact> = mutableSetOf(),
+    var contacts: MutableSet<Contact> = mutableSetOf()
 
-    var isEnabled: Boolean? = true,
+    var isEnabled: Boolean? = true
 
-    var dateOfBirth: LocalDate? = null,
-
-    @Enumerated(value = EnumType.STRING)
-    var status: UserStatus? = UserStatus.ALIVE,
+    var dateOfBirth: LocalDate? = null
 
     @Enumerated(value = EnumType.STRING)
-    var role: UserRole? = UserRole.USER,
+    var status: UserStatus? = UserStatus.ALIVE
+
+    @Enumerated(value = EnumType.STRING)
+    var role: UserRole? = UserRole.USER
 
     @CreationTimestamp
-    @DateFormat(pattern = DATE_TIME_PATTERN)
-    var createdAt: LocalDateTime? = null,
+    var createdAt: LocalDateTime? = null
 
     @UpdateTimestamp
-    @DateFormat(pattern = DATE_TIME_PATTERN)
-    var modifiedAt: LocalDateTime? = null,
+    var modifiedAt: LocalDateTime? = null
 
     @Version
     val version: Long? = null
 
-) : PanacheEntityBase {
     override fun toString(): String {
         return "User(" +
                 "id=$id, " +

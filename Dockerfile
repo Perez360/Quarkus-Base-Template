@@ -18,9 +18,9 @@ RUN mkdir /app
 
 WORKDIR /app
 
-COPY --from=build /usr/app/target/quarkus-base-template-1.0.0-SNAPSHOT-runner.jar /app
+COPY --from=build /usr/app/target/quarkus-base-template-0.0.1-SNAPSHOT-runner.jar /app
 
 EXPOSE 8080
 
-ENTRYPOINT [ "java", "-jar", "quarkus-base-template-1.0.0-SNAPSHOT-runner.jar"]
+ENTRYPOINT [ "java", "-jar", "quarkus-base-template-0.0.1-SNAPSHOT-runner.jar"]
 

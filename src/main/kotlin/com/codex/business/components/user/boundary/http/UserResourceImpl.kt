@@ -2,7 +2,6 @@ package com.codex.business.components.user.boundary.http
 
 import com.codex.base.shared.APIResponse
 import com.codex.base.shared.PagedContent
-import com.codex.base.utils.Generator
 import com.codex.base.utils.Mapper
 import com.codex.base.utils.toPagedContent
 import com.codex.base.utils.wrapSuccessInResponse
@@ -44,10 +43,9 @@ class UserResourceImpl : UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     override fun addUser(dto: AddUserDTO): APIResponse<UserDTO> {
         logger.info("Add user route has been triggered with dto: {}", dto)
-        val sessionId = Generator.generateSessionId()
         val oneUser = userService.add(dto)
         val oneUserDTO = Mapper.convert<User, UserDTO>(oneUser)
-        logger.info("{}: Successfully created user: {}", sessionId, oneUserDTO)
+        logger.info("Successfully created user: {}", oneUserDTO)
         return wrapSuccessInResponse(oneUserDTO)
     }
 
@@ -55,11 +53,10 @@ class UserResourceImpl : UserResource {
     @RolesAllowed("ADMIN")
     @Consumes(MediaType.APPLICATION_JSON)
     override fun updateUser(dto: UpdateUserDTO): APIResponse<UserDTO> {
-        val sessionId = Generator.generateSessionId()
         logger.info("Update user route has been triggered with dto: {}", dto)
         val oneUser = userService.update(dto)
         val oneUserDTO = Mapper.convert<User, UserDTO>(oneUser)
-        logger.info("{}: Successfully updated user: {}", sessionId, oneUserDTO)
+        logger.info("Successfully updated user: {}", oneUserDTO)
         return wrapSuccessInResponse(oneUserDTO)
     }
 
@@ -69,10 +66,9 @@ class UserResourceImpl : UserResource {
     @RolesAllowed("ADMIN", "USER")
     override fun getByUserId(@PathParam("id") id: String): APIResponse<UserDTO> {
         logger.info("Get user by id route has been triggered with id: {}", id)
-        val sessionId = Generator.generateSessionId()
         val oneUser = userService.getById(id)
         val oneUserDTO = Mapper.convert<User, UserDTO>(oneUser)
-        logger.info("{}: Found a user: {}", sessionId, oneUserDTO)
+        logger.info("Found a user: {}", oneUserDTO)
         return wrapSuccessInResponse(oneUserDTO)
     }
 
@@ -84,10 +80,9 @@ class UserResourceImpl : UserResource {
         @QueryParam("size") @DefaultValue("50") size: Int
     ): APIResponse<PagedContent<UserDTO>> {
         logger.info("List users route has been triggered with page: {} and size: {}", page, size)
-        val sessionId = Generator.generateSessionId()
         val pagedUsers: PagedContent<UserDTO> = userService.list(page, size)
             .toPagedContent(Mapper::convert)
-        logger.info("{}: Listed users in pages: {}", sessionId, pagedUsers)
+        logger.info("Listed users in pages: {}", pagedUsers)
         return wrapSuccessInResponse(pagedUsers)
     }
 
@@ -96,10 +91,9 @@ class UserResourceImpl : UserResource {
     @RolesAllowed("ADMIN", "USER")
     override fun searchUsers(@BeanParam userSpec: UserSpec): APIResponse<PagedContent<UserDTO>> {
         logger.info("Search users route has been triggered with spec: {}", userSpec)
-        val sessionId = Generator.generateSessionId()
         val pagedUsers: PagedContent<UserDTO> = userService.search(userSpec)
             .toPagedContent(Mapper::convert)
-        logger.info("{}: Searched users in pages: {}", sessionId, pagedUsers)
+        logger.info("Searched users in pages: {}", pagedUsers)
         return wrapSuccessInResponse(pagedUsers)
     }
 
@@ -108,10 +102,9 @@ class UserResourceImpl : UserResource {
     @RolesAllowed("ADMIN")
     override fun deleteUser(@PathParam("id") id: String): APIResponse<UserDTO> {
         logger.info("Delete user route has been triggered with id: {}", id)
-        val sessionId = Generator.generateSessionId()
         val oneUser = userService.delete(id)
         val oneUserDTO = Mapper.convert<User, UserDTO>(oneUser)
-        logger.info("{}: Successfully deleted user: {}", sessionId, oneUserDTO)
+        logger.info("Successfully deleted user: {}", oneUserDTO)
         return wrapSuccessInResponse(oneUserDTO)
     }
 }

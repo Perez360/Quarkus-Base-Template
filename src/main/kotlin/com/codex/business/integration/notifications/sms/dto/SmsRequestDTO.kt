@@ -1,4 +1,4 @@
-package com.codex.business.integration.components.sms.dto
+package com.codex.business.integration.notifications.sms.dto
 
 data class SmsRequestDTO(
     val message: String,

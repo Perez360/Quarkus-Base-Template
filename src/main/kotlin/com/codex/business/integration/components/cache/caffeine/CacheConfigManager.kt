@@ -1,4 +1,4 @@
-package com.codex.business.integration.components.cache;
+package com.codex.business.integration.components.cache.caffeine;
 
 import io.quarkus.cache.Cache
 import io.quarkus.cache.CacheManager
@@ -11,7 +11,7 @@ import java.util.*
 public class CacheConfigManager constructor(private val cacheManager: CacheManager) {
     fun setExpireAfterAccess(cacheName: String, duration: Duration) {
         val cache: Optional<Cache> = cacheManager.getCache(cacheName);
-        if (cache.isPresent()) {
+        if (cache.isPresent) {
             cache.get().`as`(CaffeineCache::class.java).setExpireAfterAccess(duration)
         }
     }

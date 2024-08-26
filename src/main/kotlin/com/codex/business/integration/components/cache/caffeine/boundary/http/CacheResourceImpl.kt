@@ -1,13 +1,13 @@
-package com.codex.business.components.user.boundary.http
+package com.codex.business.integration.components.cache.caffeine.boundary.http
 
 import CacheResource
 import com.codex.base.shared.APIResponse
 import com.codex.base.utils.Mapper
 import com.codex.base.utils.wrapSuccessInResponse
-import com.codex.business.integration.components.cache.CacheService
-import com.codex.business.integration.components.cache.dto.AddCacheDTO
-import com.codex.business.integration.components.cache.dto.CacheDTO
-import com.codex.business.integration.components.cache.dto.UpdateCacheDTO
+import com.codex.business.integration.components.cache.caffeine.CacheService
+import com.codex.business.integration.components.cache.caffeine.dto.AddCacheDTO
+import com.codex.business.integration.components.cache.caffeine.dto.CacheDTO
+import com.codex.business.integration.components.cache.caffeine.dto.UpdateCacheDTO
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntity_.id
 import io.quarkus.security.Authenticated
 import jakarta.annotation.security.RolesAllowed
@@ -76,8 +76,8 @@ class CacheResourceImpl : CacheResource {
         @QueryParam("size") @DefaultValue("50") size: Int
     ): APIResponse<List<CacheDTO<*>>> {
         logger.info("List users route has been triggered with page: {} and size: {}", page, size)
-        logger.info("{}: Listed caches in pages: {}")
-        return wrapSuccessInResponse(listOf<CacheDTO<*>>())
+        logger.info("Listed caches in pages: {}")
+        return wrapSuccessInResponse(listOf())
     }
 
     @DELETE

@@ -1,4 +1,4 @@
-package com.codex.business.integration.components.email.dto
+package com.codex.business.integration.notifications.dto
 
 data class MailRequestDTO(
     val message: String,

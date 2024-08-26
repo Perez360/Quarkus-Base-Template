@@ -1,4 +1,4 @@
-package com.codex.business.integration.components.cache
+package com.codex.business.integration.components.cache.caffeine
 
 import io.quarkus.cache.Cache
 import io.quarkus.cache.CacheName
@@ -40,6 +40,4 @@ class CacheService {
         logger.info("Removing all records from incache to in memory")
         cache.`as`(CaffeineCache::class.java).invalidateAll()
     }
-
-
 }

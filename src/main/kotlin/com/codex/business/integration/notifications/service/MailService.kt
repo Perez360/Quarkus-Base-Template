@@ -1,9 +1,9 @@
-package com.codex.business.integration.components.email.service
+package com.codex.business.integration.notifications.service
 
 import com.arjuna.ats.jdbc.TransactionalDriver
 import com.codex.base.exceptions.ServiceException
-import com.codex.business.integration.components.email.dto.MailRequestDTO
-import com.codex.business.integration.components.email.dto.MailResponseDTO
+import com.codex.business.integration.notifications.dto.MailRequestDTO
+import com.codex.business.integration.notifications.dto.MailResponseDTO
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
