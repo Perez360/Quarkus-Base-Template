@@ -9,7 +9,7 @@ import jakarta.ws.rs.QueryParam
 /*
 * Use <var> keyword to define query params
 */
-abstract class BaseSpec {
+abstract class Spec {
 
     @DefaultValue(value = "0")
     @QueryParam(value = "page")

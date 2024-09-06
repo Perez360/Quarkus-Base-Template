@@ -19,7 +19,6 @@ import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme
 import org.eclipse.microprofile.openapi.annotations.tags.Tag
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
