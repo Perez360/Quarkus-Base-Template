@@ -1,12 +1,12 @@
 package com.codex.business
 
-import com.codex.business.components.contact.dto.AddContactDTO
-import com.codex.business.components.contact.dto.ContactDTO
-import com.codex.business.components.contact.dto.UpdateContactDTO
+import com.codex.business.components.contact.dto.AddContactDto
+import com.codex.business.components.contact.dto.ContactDto
+import com.codex.business.components.contact.dto.UpdateContactDto
 import com.codex.business.components.contact.repo.Contact
-import com.codex.business.components.user.dto.AddUserDTO
-import com.codex.business.components.user.dto.UpdateUserDTO
-import com.codex.business.components.user.dto.UserDTO
+import com.codex.business.components.user.dto.AddUserDto
+import com.codex.business.components.user.dto.UpdateUserDto
+import com.codex.business.components.user.dto.UserDto
 import com.codex.business.components.user.repo.User
 import jakarta.persistence.Version
 import jakarta.validation.constraints.PastOrPresent
@@ -32,12 +32,12 @@ private val easyRandom = EasyRandom(parameter)
 
 /********************** CONTACT ***********************/
 fun mockedContact(): Contact = easyRandom.nextObject(Contact::class.java)
-fun mockAddContactDTO(): AddContactDTO = easyRandom.nextObject(AddContactDTO::class.java)
-fun mockedUpdateContactDTO(): UpdateContactDTO = easyRandom.nextObject(UpdateContactDTO::class.java)
-fun mockedContactDTO(): ContactDTO = easyRandom.nextObject(ContactDTO::class.java)
+fun mockAddContactDto(): AddContactDto = easyRandom.nextObject(AddContactDto::class.java)
+fun mockedUpdateContactDto(): UpdateContactDto = easyRandom.nextObject(UpdateContactDto::class.java)
+fun mockedContactDto(): ContactDto = easyRandom.nextObject(ContactDto::class.java)
 
 /********************** USER ***********************/
 fun mockedUser(): User = easyRandom.nextObject(User::class.java)
-fun mockAddUserDTO(): AddUserDTO = easyRandom.nextObject(AddUserDTO::class.java)
-fun mockedUpdateUser(): UpdateUserDTO = easyRandom.nextObject(UpdateUserDTO::class.java)
-fun mockedUserDTO(): UserDTO = easyRandom.nextObject(UserDTO::class.java)
+fun mockAddUserDto(): AddUserDto = easyRandom.nextObject(AddUserDto::class.java)
+fun mockedUpdateUserDto(): UpdateUserDto = easyRandom.nextObject(UpdateUserDto::class.java)
+fun mockedUserDto(): UserDto = easyRandom.nextObject(UserDto::class.java)

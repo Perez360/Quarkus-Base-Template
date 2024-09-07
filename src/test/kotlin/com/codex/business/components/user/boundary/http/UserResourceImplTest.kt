@@ -1,27 +1,26 @@
 package com.codex.business.components.user.boundary.http
 
-import com.codex.base.CODE_FAILURE
-import com.codex.base.CODE_SUCCESS
-import com.codex.base.SYSTEM_CODE_FAILURE
-import com.codex.base.SYSTEM_CODE_SUCCESS
+import com.codex.base.Texts.CODE_FAILURE
+import com.codex.base.Texts.CODE_SUCCESS
+import com.codex.base.Texts.SYSTEM_CODE_FAILURE
+import com.codex.base.Texts.SYSTEM_CODE_SUCCESS
 import com.codex.base.exceptions.ServiceException
 import com.codex.business.components.user.repo.User
 import com.codex.business.components.user.service.UserService
 import com.codex.business.components.user.spec.UserSpec
-import com.codex.business.mockAddUserDTO
-import com.codex.business.mockedUpdateUser
+import com.codex.business.mockAddUserDto
+import com.codex.business.mockedUpdateUserDto
 import com.codex.business.mockedUser
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 import io.quarkus.panache.common.Page
-import io.quarkus.test.InjectMock
 import io.quarkus.test.common.http.TestHTTPEndpoint
 import io.quarkus.test.junit.QuarkusTest
+import io.quarkus.test.junit.mockito.InjectMock
 import io.quarkus.test.security.TestSecurity
 import jakarta.inject.Inject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import java.time.LocalDate
 
 
 @QuarkusTest
@@ -40,7 +39,7 @@ class UserResourceImplTest {
     fun addUser_OK() {
         //GIVEN
         val user = mockedUser()
-        val dto = mockAddUserDTO()
+        val dto = mockAddUserDto()
         Mockito.`when`(userService.add(dto)).thenReturn(user)
 
         //WHEN
@@ -57,7 +56,7 @@ class UserResourceImplTest {
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
     fun addUser_KO() {
         //GIVEN
-        val dto = mockAddUserDTO()
+        val dto = mockAddUserDto()
         Mockito.`when`(userService.add(dto)).thenThrow(ServiceException::class.java)
 
         Assertions.assertThrowsExactly(ServiceException::class.java) {
@@ -78,7 +77,7 @@ class UserResourceImplTest {
     fun updateUser_OK() {
         //GIVEN
         val user = mockedUser()
-        val dto = mockedUpdateUser()
+        val dto = mockedUpdateUserDto()
         Mockito.`when`(userService.update(dto)).thenReturn(user)
 
         //WHEN
@@ -96,7 +95,7 @@ class UserResourceImplTest {
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
     fun updateUser_KO() {
         //GIVEN
-        val dto = mockedUpdateUser()
+        val dto = mockedUpdateUserDto()
         Mockito.`when`(userService.update(dto)).thenThrow(ServiceException::class.java)
 
 

@@ -1,28 +1,25 @@
 package com.codex.business.components.user.service
 
 import com.codex.base.exceptions.ServiceException
-import com.codex.business.components.user.dto.UpdateUserDTO
+import com.codex.business.components.user.dto.UpdateUserDto
 import com.codex.business.components.user.repo.User
 import com.codex.business.components.user.repo.UserRepo
 import com.codex.business.components.user.spec.UserSpec
-import com.codex.business.mockAddUserDTO
-import com.codex.business.mockedUpdateUser
+import com.codex.business.mockAddUserDto
+import com.codex.business.mockedUpdateUserDto
 import com.codex.business.mockedUser
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
-import io.quarkus.test.InjectMock
 import io.quarkus.test.junit.QuarkusTest
+import io.quarkus.test.junit.mockito.InjectMock
 import jakarta.inject.Inject
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
-import org.mockito.junit.jupiter.MockitoExtension
 
 
 @QuarkusTest
-@ExtendWith(MockitoExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserServiceImplTest {
     @InjectMock
@@ -39,12 +36,12 @@ class UserServiceImplTest {
     @Test
     fun add_OK() {
         //GIVEN
-        val mockedAddUserDTO = mockAddUserDTO()
+        val mockedAddUserDto = mockAddUserDto()
         val mockedUser: User = mockedUser()
         Mockito.doNothing().`when`(userRepo).persist(mockedUser)
 
         //WHEN
-        val result = underTest.add(mockedAddUserDTO)
+        val result = underTest.add(mockedAddUserDto)
 
         //THEN
         Mockito.verify(userRepo, Mockito.atMostOnce()).persist(mockedUser)
@@ -56,17 +53,17 @@ class UserServiceImplTest {
     @Test
     fun update_OK() {
         //GIVEN
-        val mockedUpdateUserDTO: UpdateUserDTO = mockedUpdateUser()
+        val mockedUpdateUserDto: UpdateUserDto = mockedUpdateUserDto()
         val mockedUser: User = mockedUser()
-        Mockito.`when`(userRepo.findById(mockedUpdateUserDTO.id!!)).thenReturn(mockedUser)
+        Mockito.`when`(userRepo.findById(mockedUpdateUserDto.id!!)).thenReturn(mockedUser)
         Mockito.doNothing().`when`(userRepo).persist(mockedUser)
 
         //WHEN
-        val result = underTest.update(mockedUpdateUserDTO)
+        val result = underTest.update(mockedUpdateUserDto)
 
         //THEN
         Mockito.verify(userRepo, Mockito.atMostOnce()).persist(mockedUser)
-        Mockito.verify(userRepo, Mockito.atMostOnce()).findById(mockedUpdateUserDTO.id!!)
+        Mockito.verify(userRepo, Mockito.atMostOnce()).findById(mockedUpdateUserDto.id!!)
         Assertions.assertNotNull(result)
         Assertions.assertInstanceOf(User::class.java, result)
         Assertions.assertSame(result, mockedUser)
@@ -75,17 +72,17 @@ class UserServiceImplTest {
     @Test
     fun update_KO() {
         //GIVEN
-        val mockedUpdateUserDTO: UpdateUserDTO = mockedUpdateUser()
+        val mockedUpdateUserDto: UpdateUserDto = mockedUpdateUserDto()
         val mockedUser: User = mockedUser()
-        Mockito.`when`(userRepo.findById(mockedUpdateUserDTO.id!!)).thenReturn(null)
+        Mockito.`when`(userRepo.findById(mockedUpdateUserDto.id!!)).thenReturn(null)
         Mockito.doNothing().`when`(userRepo).persist(mockedUser)
 
         Assertions.assertThrows(ServiceException::class.java) {
             //WHEN
-            underTest.update(mockedUpdateUserDTO)
+            underTest.update(mockedUpdateUserDto)
 
             //THEN
-            Mockito.verify(userRepo, Mockito.atMostOnce()).findById(mockedUpdateUserDTO.id!!)
+            Mockito.verify(userRepo, Mockito.atMostOnce()).findById(mockedUpdateUserDto.id!!)
             Mockito.verify(userRepo, Mockito.never()).persist(mockedUser)
         }
     }
@@ -238,26 +235,26 @@ class UserServiceImplTest {
     @Test
     fun deleteAll_OK() {
         //GIVEN
-        Mockito.`when`(userRepo.deleteAll()).thenReturn(0)
+        Mockito.`when`(userRepo.deleteAll()).thenReturn(9)
 
         //WHEN
         val result = underTest.deleteAll()
 
         //THEN
         Mockito.verify(userRepo, Mockito.atMostOnce()).deleteAll()
-        Assertions.assertTrue(result)
+        Assertions.assertTrue(result > 0)
     }
 
     @Test
     fun deleteAll_KO() {
         //GIVEN
-        Mockito.`when`(userRepo.deleteAll()).thenReturn(5)
+        Mockito.`when`(userRepo.deleteAll()).thenReturn(0)
 
         //WHEN
         val result = underTest.deleteAll()
 
         //THEN
         Mockito.verify(userRepo, Mockito.only()).deleteAll()
-        Assertions.assertTrue(result)
+        Assertions.assertTrue(result < 1)
     }
 }

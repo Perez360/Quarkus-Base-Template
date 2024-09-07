@@ -1,7 +1,7 @@
 package com.codex.business.components.user.spec
 
 import com.codex.base.shared.Queries
-import com.codex.base.shared.BaseSpec
+import com.codex.base.shared.Spec
 import com.codex.business.components.contact.enum.ContactType
 import com.codex.business.components.contact.repo.Contact
 import com.codex.business.components.user.enum.UserRole
@@ -12,7 +12,7 @@ import jakarta.ws.rs.QueryParam
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-class UserSpec : BaseSpec() {
+class UserSpec : Spec() {
     @QueryParam("firstName")
     var firstName: String? = null
 

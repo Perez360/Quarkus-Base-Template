@@ -1,10 +1,11 @@
 package com.codex.business.components.auth.boundary.http
 
 import com.codex.base.shared.APIResponse
-import com.codex.base.utils.Generator
+import com.codex.base.utils.Mapper
 import com.codex.base.utils.wrapSuccessInResponse
-import com.codex.business.components.auth.dto.AddUserDTO
-import com.codex.business.components.auth.dto.GetUserTokenDTO
+import com.codex.business.components.auth.dto.AddUserDto
+import com.codex.business.components.auth.dto.GetUserTokenDto
+import com.codex.business.components.auth.dto.RoleDto
 import com.codex.business.components.auth.service.AuthService
 import io.quarkus.security.identity.SecurityIdentity
 import jakarta.annotation.security.RolesAllowed
@@ -19,7 +20,6 @@ import org.keycloak.representations.idm.RoleRepresentation
 import org.keycloak.representations.idm.UserRepresentation
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.security.Principal
 
 
 @Path("/api/v1/auth")
@@ -39,40 +39,29 @@ class AuthResourceImpl : AuthResource {
     @GET
     @Path("/me")
     @NoCache
-    override fun me(): APIResponse<Principal> {
-        return wrapSuccessInResponse(identity.principal)
+    override fun me(): APIResponse<String> {
+        return wrapSuccessInResponse(identity.principal.name)
     }
 
-    @GET
-    @NoCache
-    @Path("/client/token")
-    override fun getClientToken(): APIResponse<AccessTokenResponse> {
-        logger.info("Get client token route has been triggered")
-        val sessionId = Generator.generateSessionId()
-        val accessTokenResponse = authService.getClientToken()
-        logger.info("{}: Successfully retrieved client token: {}", sessionId, accessTokenResponse)
-        return wrapSuccessInResponse(accessTokenResponse)
-    }
 
     @POST
     @NoCache
     @Path("/user/token")
     @Consumes(MediaType.APPLICATION_JSON)
-    override fun getUserToken(dto: GetUserTokenDTO): APIResponse<AccessTokenResponse> {
+    override fun getUserToken(dto: GetUserTokenDto): APIResponse<AccessTokenResponse> {
         logger.info("Get user token route has been triggered")
-        val sessionId = Generator.generateSessionId()
         val accessTokenResponse = authService.getUserToken(dto)
-        logger.info("{}: Successfully retrieved user token: {}", sessionId, accessTokenResponse)
+        logger.info("Successfully retrieved user token: {}", accessTokenResponse)
         return wrapSuccessInResponse(accessTokenResponse)
     }
 
     @GET
     @Path("/roles")
-    override fun listRoles(): APIResponse<List<RoleRepresentation>> {
+    @RolesAllowed("ADMIN")
+    override fun listRoles(): APIResponse<List<RoleDto>> {
         logger.info("Get role route has been triggered")
-        val sessionId = Generator.generateSessionId()
-        val roles = authService.listRoles()
-        logger.info("{}: Successfully listed roles: {}", sessionId, roles)
+        val roles = authService.listRoles().map<RoleRepresentation, RoleDto>(Mapper::convert)
+        logger.info("Successfully listed roles: {}", roles)
         return wrapSuccessInResponse(roles)
     }
 
@@ -80,13 +69,10 @@ class AuthResourceImpl : AuthResource {
     @Path("user/register")
     @RolesAllowed("ADMIN")
     @Consumes(MediaType.APPLICATION_JSON)
-    override fun registerUser(dto: AddUserDTO): APIResponse<UserRepresentation> {
-
+    override fun registerUser(dto: AddUserDto): APIResponse<UserRepresentation> {
         logger.info("Register user route has been triggered")
-        val sessionId = Generator.generateSessionId()
         val userRepresentation = authService.registerUser(dto)
-
-        logger.info("{}: Successfully registered user: {}", sessionId, userRepresentation)
+        logger.info("Successfully registered user: {}", userRepresentation)
         return wrapSuccessInResponse(userRepresentation)
     }
 }

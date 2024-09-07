@@ -1,12 +1,12 @@
 package com.codex.business.components.contact.spec
 
-import com.codex.base.shared.BaseSpec
 import com.codex.base.shared.Queries
+import com.codex.base.shared.Spec
 import com.codex.business.components.contact.enum.ContactType
 import io.quarkus.panache.common.Parameters
 import jakarta.ws.rs.QueryParam
 
-class ContactSpec : BaseSpec() {
+class ContactSpec : Spec() {
     @QueryParam(value = "content")
     var content: String? = null
 

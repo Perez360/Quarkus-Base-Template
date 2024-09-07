@@ -3,10 +3,10 @@ package com.codex.base.utils
 import java.net.Socket
 import java.nio.charset.StandardCharsets
 
-class TCPClient(addr: String, port: Int) : Socket(addr, port) {
+class TCPClient(address: String, port: Int) : Socket(address, port) {
     fun send(msg: String) {
-        outputStream.use {
-            it.writer(StandardCharsets.UTF_8).write(msg)
+        outputStream.use { stream ->
+            stream.writer(StandardCharsets.UTF_8).write(msg)
         }
     }
 }

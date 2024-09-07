@@ -1,8 +1,8 @@
 package com.codex.base.utils
 
 import com.codex.base.enums.SortOrder
-import com.codex.base.shared.BaseSpec
 import com.codex.base.shared.PagedContent
+import com.codex.base.shared.Spec
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepositoryBase
 import io.quarkus.panache.common.Page
@@ -13,7 +13,7 @@ import java.util.*
 import java.util.stream.Collectors
 
 interface CustomPanacheRepositoryBase<Entity : Any, Id : Any> : PanacheRepositoryBase<Entity, Id> {
-    fun search(spec: BaseSpec): PanacheQuery<Entity> {
+    fun search(spec: Spec): PanacheQuery<Entity> {
         val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
         logger.info("Spec:: {}", spec)
@@ -42,7 +42,7 @@ interface CustomPanacheRepositoryBase<Entity : Any, Id : Any> : PanacheRepositor
     }
 }
 
-fun <Entity : Any, DTO> PanacheQuery<Entity>.toPagedContent(mapFunc: (Entity) -> DTO): PagedContent<DTO> {
+fun <Entity : Any, Dto> PanacheQuery<Entity>.toPagedContent(mapFunc: (Entity) -> Dto): PagedContent<Dto> {
 
     return PagedContent(
         page = page().index,

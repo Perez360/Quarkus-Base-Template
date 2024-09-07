@@ -1,16 +1,16 @@
 package com.codex.business.components.contact.service
 
-import com.codex.business.components.contact.dto.AddContactDTO
-import com.codex.business.components.contact.dto.UpdateContactDTO
+import com.codex.business.components.contact.dto.AddContactDto
+import com.codex.business.components.contact.dto.UpdateContactDto
 import com.codex.business.components.contact.repo.Contact
 import com.codex.business.components.contact.spec.ContactSpec
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 import jakarta.validation.Valid
 
 interface ContactService {
-    fun add(@Valid dto: AddContactDTO): Contact
+    fun add(@Valid dto: AddContactDto): Contact
 
-    fun update(@Valid dto: UpdateContactDTO): Contact
+    fun update(@Valid dto: UpdateContactDto): Contact
 
     fun getById(id: String): Contact
 

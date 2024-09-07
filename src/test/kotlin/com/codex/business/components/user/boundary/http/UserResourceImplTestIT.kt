@@ -1,15 +1,15 @@
 package com.codex.business.components.user.boundary.http
 
-import com.codex.base.CODE_SUCCESS
-import com.codex.base.SYSTEM_CODE_SUCCESS
+import com.codex.base.Texts.CODE_SUCCESS
+import com.codex.base.Texts.SYSTEM_CODE_SUCCESS
 import com.codex.base.shared.APIResponse
 import com.codex.base.shared.PagedContent
-import com.codex.business.components.user.dto.UserDTO
+import com.codex.business.components.user.dto.UserDto
 import com.codex.business.components.user.repo.User
 import com.codex.business.components.user.service.UserService
 import com.codex.business.components.user.spec.UserSpec
-import com.codex.business.mockAddUserDTO
-import com.codex.business.mockedUpdateUser
+import com.codex.business.mockAddUserDto
+import com.codex.business.mockedUpdateUserDto
 import io.quarkus.test.common.http.TestHTTPEndpoint
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.security.TestSecurity
@@ -22,7 +22,6 @@ import org.hamcrest.Matchers
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import java.time.LocalDate
 
 @QuarkusTest
 @TestHTTPEndpoint(value = UserResourceImpl::class)
@@ -36,7 +35,7 @@ class UserResourceImplTestIT {
 
     @BeforeAll
     fun setUp() {
-        testUser = service.add(mockAddUserDTO())
+        testUser = service.add(mockAddUserDto())
     }
 
 
@@ -44,7 +43,7 @@ class UserResourceImplTestIT {
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
     fun addUser() {
         //GIVEN
-        val dto = mockAddUserDTO()
+        val dto = mockAddUserDto()
 
         //WHEN
         RestAssured.given()
@@ -54,9 +53,9 @@ class UserResourceImplTestIT {
             .post()
             .then()
             .body(Matchers.notNullValue())
-            .body(APIResponse<UserDTO>::code.name, Matchers.equalTo(CODE_SUCCESS))
-            .body(APIResponse<UserDTO>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
-            .body(APIResponse<UserDTO>::data.name, Matchers.notNullValue())
+            .body(APIResponse<UserDto>::code.name, Matchers.equalTo(CODE_SUCCESS))
+            .body(APIResponse<UserDto>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
+            .body(APIResponse<UserDto>::data.name, Matchers.notNullValue())
             .statusCode(Response.Status.OK.statusCode)
             .log().all()
 
@@ -66,7 +65,7 @@ class UserResourceImplTestIT {
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
     fun updateUser() {
         //GIVEN
-        val dto = mockedUpdateUser()
+        val dto = mockedUpdateUserDto()
         dto.id = testUser.id
 
         //WHEN
@@ -77,9 +76,9 @@ class UserResourceImplTestIT {
             .put()
             .then()
             .body(Matchers.notNullValue())
-            .body(APIResponse<UserDTO>::code.name, Matchers.equalTo(CODE_SUCCESS))
-            .body(APIResponse<UserDTO>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
-            .body(APIResponse<UserDTO>::data.name, Matchers.notNullValue())
+            .body(APIResponse<UserDto>::code.name, Matchers.equalTo(CODE_SUCCESS))
+            .body(APIResponse<UserDto>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
+            .body(APIResponse<UserDto>::data.name, Matchers.notNullValue())
             .statusCode(Response.Status.OK.statusCode)
             .log().all()
 
@@ -94,9 +93,9 @@ class UserResourceImplTestIT {
             .get("/{id}")
             .then()
             .body(Matchers.notNullValue())
-            .body(APIResponse<UserDTO>::code.name, Matchers.equalTo(CODE_SUCCESS))
-            .body(APIResponse<UserDTO>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
-            .body(APIResponse<UserDTO>::data.name, Matchers.notNullValue())
+            .body(APIResponse<UserDto>::code.name, Matchers.equalTo(CODE_SUCCESS))
+            .body(APIResponse<UserDto>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
+            .body(APIResponse<UserDto>::data.name, Matchers.notNullValue())
             .statusCode(Response.Status.OK.statusCode)
             .log().all()
 
@@ -117,9 +116,9 @@ class UserResourceImplTestIT {
             .get("/list")
             .then()
             .body(Matchers.notNullValue())
-            .body(APIResponse<PagedContent<UserDTO>>::code.name, Matchers.equalTo(CODE_SUCCESS))
-            .body(APIResponse<PagedContent<UserDTO>>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
-            .body(APIResponse<PagedContent<UserDTO>>::data.name, Matchers.notNullValue())
+            .body(APIResponse<PagedContent<UserDto>>::code.name, Matchers.equalTo(CODE_SUCCESS))
+            .body(APIResponse<PagedContent<UserDto>>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
+            .body(APIResponse<PagedContent<UserDto>>::data.name, Matchers.notNullValue())
             .statusCode(Response.Status.OK.statusCode)
             .log().all()
 
@@ -140,9 +139,9 @@ class UserResourceImplTestIT {
             .get("/q")
             .then()
             .body(Matchers.notNullValue())
-            .body(APIResponse<PagedContent<UserDTO>>::code.name, Matchers.equalTo(CODE_SUCCESS))
-            .body(APIResponse<PagedContent<UserDTO>>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
-            .body(APIResponse<PagedContent<UserDTO>>::data.name, Matchers.notNullValue())
+            .body(APIResponse<PagedContent<UserDto>>::code.name, Matchers.equalTo(CODE_SUCCESS))
+            .body(APIResponse<PagedContent<UserDto>>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
+            .body(APIResponse<PagedContent<UserDto>>::data.name, Matchers.notNullValue())
             .statusCode(Response.Status.OK.statusCode)
             .log().all()
     }
@@ -154,15 +153,15 @@ class UserResourceImplTestIT {
 
         //WHEN
         RestAssured.given()
-            .body(Json.encode(mockAddUserDTO()))
+            .body(Json.encode(mockAddUserDto()))
             .pathParam("id", testUser.id)
             .`when`()
             .delete("/{id}")
             .then()
             .body(Matchers.notNullValue())
-            .body(APIResponse<UserDTO>::code.name, Matchers.equalTo(CODE_SUCCESS))
-            .body(APIResponse<UserDTO>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
-            .body(APIResponse<UserDTO>::data.name, Matchers.notNullValue())
+            .body(APIResponse<UserDto>::code.name, Matchers.equalTo(CODE_SUCCESS))
+            .body(APIResponse<UserDto>::systemCode.name, Matchers.equalTo(SYSTEM_CODE_SUCCESS))
+            .body(APIResponse<UserDto>::data.name, Matchers.notNullValue())
             .statusCode(Response.Status.OK.statusCode)
             .log().all()
     }

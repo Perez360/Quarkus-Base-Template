@@ -1,22 +1,22 @@
 package com.codex.business.components.contact.boundary.http
 
-import com.codex.base.CODE_FAILURE
-import com.codex.base.CODE_SUCCESS
-import com.codex.base.SYSTEM_CODE_FAILURE
-import com.codex.base.SYSTEM_CODE_SUCCESS
+import com.codex.base.Texts.CODE_FAILURE
+import com.codex.base.Texts.CODE_SUCCESS
+import com.codex.base.Texts.SYSTEM_CODE_FAILURE
+import com.codex.base.Texts.SYSTEM_CODE_SUCCESS
 import com.codex.base.exceptions.ServiceException
 import com.codex.business.components.contact.repo.Contact
 import com.codex.business.components.contact.service.ContactService
 import com.codex.business.components.contact.spec.ContactSpec
 import com.codex.business.components.user.boundary.http.UserResourceImpl
-import com.codex.business.mockAddContactDTO
+import com.codex.business.mockAddContactDto
 import com.codex.business.mockedContact
-import com.codex.business.mockedUpdateContactDTO
+import com.codex.business.mockedUpdateContactDto
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 import io.quarkus.panache.common.Page
-import io.quarkus.test.InjectMock
 import io.quarkus.test.common.http.TestHTTPEndpoint
 import io.quarkus.test.junit.QuarkusTest
+import io.quarkus.test.junit.mockito.InjectMock
 import io.quarkus.test.security.TestSecurity
 import jakarta.inject.Inject
 import org.junit.jupiter.api.Assertions
@@ -40,7 +40,7 @@ class ContactResourceImplTest {
     fun addUser_OK() {
         //GIVEN
         val user = mockedContact()
-        val dto = mockAddContactDTO()
+        val dto = mockAddContactDto()
         Mockito.`when`(contactService.add(dto)).thenReturn(user)
 
         //WHEN
@@ -57,7 +57,7 @@ class ContactResourceImplTest {
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
     fun addContact_KO() {
         //GIVEN
-        val dto = mockAddContactDTO()
+        val dto = mockAddContactDto()
         Mockito.`when`(contactService.add(dto)).thenThrow(ServiceException::class.java)
 
         Assertions.assertThrowsExactly(ServiceException::class.java) {
@@ -78,7 +78,7 @@ class ContactResourceImplTest {
     fun updateContact_OK() {
         //GIVEN
         val contact = mockedContact()
-        val dto = mockedUpdateContactDTO()
+        val dto = mockedUpdateContactDto()
         Mockito.`when`(contactService.update(dto)).thenReturn(contact)
 
         //WHEN
@@ -96,7 +96,7 @@ class ContactResourceImplTest {
     @TestSecurity(user = "isaac360", roles = ["ADMIN"])
     fun updateContact_KO() {
         //GIVEN
-        val dto = mockedUpdateContactDTO()
+        val dto = mockedUpdateContactDto()
         Mockito.`when`(contactService.update(dto)).thenThrow(ServiceException::class.java)
 
 

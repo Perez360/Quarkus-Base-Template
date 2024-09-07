@@ -9,5 +9,5 @@ data class PagedContent<T>(
     val hasPreviousPage: Boolean = false,
     val isFirst: Boolean = false,
     val isLast: Boolean = false,
-    var data: List<T> = listOf()
+    var data: List<T> = emptyList()
 )

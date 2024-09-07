@@ -1,6 +1,14 @@
 package com.codex.base.utils
 
-import com.codex.base.*
+import com.codex.base.Texts.CODE_ERROR
+import com.codex.base.Texts.CODE_FAILURE
+import com.codex.base.Texts.CODE_SUCCESS
+import com.codex.base.Texts.SERVER_CODE_ERROR
+import com.codex.base.Texts.SYSTEM_CODE_FAILURE
+import com.codex.base.Texts.SYSTEM_CODE_SUCCESS
+import com.codex.base.Texts.SYSTEM_MESSAGE_ERROR
+import com.codex.base.Texts.SYSTEM_MESSAGE_FAILURE
+import com.codex.base.Texts.SYSTEM_MESSAGE_SUCCESS
 import com.codex.base.shared.APIResponse
 
 fun <T> wrapSuccessInResponse(data: T): APIResponse<T> {

@@ -1,15 +1,15 @@
 package com.codex.business.components.user.service
 
-import com.codex.business.components.user.dto.AddUserDTO
-import com.codex.business.components.user.dto.UpdateUserDTO
+import com.codex.business.components.user.dto.AddUserDto
+import com.codex.business.components.user.dto.UpdateUserDto
 import com.codex.business.components.user.repo.User
 import com.codex.business.components.user.spec.UserSpec
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 
 interface UserService {
-    fun add(dto: AddUserDTO): User
+    fun add(dto: AddUserDto): User
 
-    fun update(dto: UpdateUserDTO): User
+    fun update(dto: UpdateUserDto): User
 
     fun getById(id: String): User
 
@@ -19,5 +19,5 @@ interface UserService {
 
     fun delete(id: String): User
 
-    fun deleteAll(): Boolean
+    fun deleteAll(): Long
 }

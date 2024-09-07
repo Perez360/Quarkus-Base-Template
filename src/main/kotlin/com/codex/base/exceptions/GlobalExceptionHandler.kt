@@ -28,12 +28,12 @@ class GlobalExceptionHandler : ExceptionMapper<Exception> {
             is DateTimeException,
             is ConstraintViolationException -> {
                 status = Status.BAD_REQUEST
-                errorResponse = wrapFailureInResponse(ex.localizedMessage)
+                errorResponse = wrapFailureInResponse(ex.message)
             }
 
             else -> {
                 status = Status.INTERNAL_SERVER_ERROR
-                errorResponse = wrapErrorInResponse(ex.localizedMessage)
+                errorResponse = wrapErrorInResponse(ex.message)
             }
         }
 

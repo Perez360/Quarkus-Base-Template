@@ -1,18 +1,17 @@
 package com.codex.business.components.auth.boundary.http
 
 import com.codex.base.shared.APIResponse
-import com.codex.business.components.auth.dto.AddUserDTO
-import com.codex.business.components.auth.dto.GetUserTokenDTO
+import com.codex.business.components.auth.dto.AddUserDto
+import com.codex.business.components.auth.dto.GetUserTokenDto
+import com.codex.business.components.auth.dto.RoleDto
 import jakarta.validation.Valid
 import org.keycloak.representations.AccessTokenResponse
 import org.keycloak.representations.idm.RoleRepresentation
 import org.keycloak.representations.idm.UserRepresentation
-import java.security.Principal
 
 interface AuthResource {
-    fun me(): APIResponse<Principal>
-    fun getClientToken(): APIResponse<AccessTokenResponse>
-    fun getUserToken(@Valid dto: GetUserTokenDTO): APIResponse<AccessTokenResponse>
-    fun listRoles(): APIResponse<List<RoleRepresentation>>
-    fun registerUser(@Valid dto: AddUserDTO): APIResponse<UserRepresentation>
+    fun me(): APIResponse<String>
+    fun getUserToken(@Valid dto: GetUserTokenDto): APIResponse<AccessTokenResponse>
+    fun listRoles(): APIResponse<List<RoleDto>>
+    fun registerUser(@Valid dto: AddUserDto): APIResponse<UserRepresentation>
 }

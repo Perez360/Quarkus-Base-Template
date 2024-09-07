@@ -1,17 +1,17 @@
 package com.codex.business.components.contact.service
 
-import com.codex.business.components.contact.dto.UpdateContactDTO
+import com.codex.business.components.contact.dto.UpdateContactDto
 import com.codex.business.components.contact.repo.Contact
 import com.codex.business.components.contact.repo.ContactRepo
 import com.codex.business.components.contact.spec.ContactSpec
 import com.codex.business.components.user.repo.UserRepo
-import com.codex.business.mockAddContactDTO
+import com.codex.business.mockAddContactDto
 import com.codex.business.mockedContact
-import com.codex.business.mockedUpdateContactDTO
+import com.codex.business.mockedUpdateContactDto
 import com.codex.business.mockedUser
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
-import io.quarkus.test.InjectMock
 import io.quarkus.test.junit.QuarkusTest
+import io.quarkus.test.junit.mockito.InjectMock
 import jakarta.inject.Inject
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
@@ -41,14 +41,14 @@ class ContactServiceImplTest {
     @Test
     fun add() {
         //GIVEN
-        val mockedAddContactDTO = mockAddContactDTO()
+        val mockedAddContactDto = mockAddContactDto()
         val mockedContact = mockedContact()
         val mockedUser = mockedUser()
         Mockito.`when`(userRepo.findById(Mockito.anyString())).thenReturn(mockedUser)
         Mockito.doNothing().`when`(contactRepo).persist(mockedContact)
 
         //WHEN
-        val result = underTest.add(mockedAddContactDTO)
+        val result = underTest.add(mockedAddContactDto)
 
         //THEN
         Mockito.verify(contactRepo, Mockito.atMostOnce()).persist(mockedContact)
@@ -60,17 +60,17 @@ class ContactServiceImplTest {
     @Test
     fun update() {
         //GIVEN
-        val mockedUpdateContactDTO: UpdateContactDTO = mockedUpdateContactDTO()
+        val mockedUpdateContactDto: UpdateContactDto = mockedUpdateContactDto()
         val mockedContact: Contact = mockedContact()
-        Mockito.`when`(contactRepo.findById(mockedUpdateContactDTO.id!!)).thenReturn(mockedContact)
+        Mockito.`when`(contactRepo.findById(mockedUpdateContactDto.id!!)).thenReturn(mockedContact)
         Mockito.doNothing().`when`(contactRepo).persist(mockedContact)
 
         //WHEN
-        val result = underTest.update(mockedUpdateContactDTO)
+        val result = underTest.update(mockedUpdateContactDto)
 
         //THEN
         Mockito.verify(contactRepo, Mockito.atMostOnce()).persist(mockedContact)
-        Mockito.verify(contactRepo, Mockito.atMostOnce()).findById(mockedUpdateContactDTO.id!!)
+        Mockito.verify(contactRepo, Mockito.atMostOnce()).findById(mockedUpdateContactDto.id!!)
         Assertions.assertNotNull(result)
         Assertions.assertInstanceOf(Contact::class.java, result)
         Assertions.assertSame(result, mockedContact)

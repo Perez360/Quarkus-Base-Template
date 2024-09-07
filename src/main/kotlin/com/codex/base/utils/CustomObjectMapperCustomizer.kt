@@ -1,10 +1,8 @@
 package com.codex.base.utils
 
-import com.codex.base.utils.serializers.GenericSerializer
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.databind.module.SimpleModule
 import io.quarkus.jackson.ObjectMapperCustomizer
 import jakarta.inject.Singleton
 

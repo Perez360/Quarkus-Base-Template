@@ -1,8 +1,8 @@
 package com.codex.business.components.user.service
 
 import com.codex.base.exceptions.ServiceException
-import com.codex.business.components.user.dto.AddUserDTO
-import com.codex.business.components.user.dto.UpdateUserDTO
+import com.codex.business.components.user.dto.AddUserDto
+import com.codex.business.components.user.dto.UpdateUserDto
 import com.codex.business.components.user.repo.User
 import com.codex.business.components.user.repo.UserRepo
 import com.codex.business.components.user.spec.UserSpec
@@ -11,14 +11,14 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 
-@ApplicationScoped
 @Transactional
+@ApplicationScoped
 class UserServiceImpl : UserService {
 
     @Inject
     private lateinit var userRepo: UserRepo
 
-    override fun add(dto: AddUserDTO): User {
+    override fun add(dto: AddUserDto): User {
         val oneUser = User()
         oneUser.firstName = dto.firstName
         oneUser.lastName = dto.lastName
@@ -30,7 +30,7 @@ class UserServiceImpl : UserService {
         return oneUser
     }
 
-    override fun update(dto: UpdateUserDTO): User {
+    override fun update(dto: UpdateUserDto): User {
         val oneUser = getById(dto.id!!)
 
         oneUser.firstName = dto.firstName
@@ -67,5 +67,5 @@ class UserServiceImpl : UserService {
         return oneUser
     }
 
-    override fun deleteAll(): Boolean = userRepo.deleteAll() >= 0
+    override fun deleteAll(): Long = userRepo.deleteAll()
 }

@@ -1,8 +1,8 @@
 package com.codex.business.components.contact.service
 
 import com.codex.base.exceptions.ServiceException
-import com.codex.business.components.contact.dto.AddContactDTO
-import com.codex.business.components.contact.dto.UpdateContactDTO
+import com.codex.business.components.contact.dto.AddContactDto
+import com.codex.business.components.contact.dto.UpdateContactDto
 import com.codex.business.components.contact.repo.Contact
 import com.codex.business.components.contact.repo.ContactRepo
 import com.codex.business.components.contact.spec.ContactSpec
@@ -14,8 +14,8 @@ import jakarta.transaction.Transactional
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-@ApplicationScoped
 @Transactional
+@ApplicationScoped
 class ContactServiceImpl : ContactService {
 
     @Inject
@@ -26,7 +26,7 @@ class ContactServiceImpl : ContactService {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun add(dto: AddContactDTO): Contact {
+    override fun add(dto: AddContactDto): Contact {
 
         val oneUser = userRepo.findById(dto.userId!!)
             ?: throw ServiceException("No user found with id: ${dto.userId}")
@@ -40,7 +40,7 @@ class ContactServiceImpl : ContactService {
         return oneContact
     }
 
-    override fun update(dto: UpdateContactDTO): Contact {
+    override fun update(dto: UpdateContactDto): Contact {
 
         val oneContact = getById(dto.id!!)
         val oneUser = userRepo.findById(dto.userId!!)

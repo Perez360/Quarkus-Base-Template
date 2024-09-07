@@ -1,8 +1,8 @@
 package com.codex.business.components.auth.service
 
 import com.codex.base.exceptions.ServiceException
-import com.codex.business.components.auth.dto.AddUserDTO
-import com.codex.business.components.auth.dto.GetUserTokenDTO
+import com.codex.business.components.auth.dto.AddUserDto
+import com.codex.business.components.auth.dto.GetUserTokenDto
 import io.quarkus.keycloak.admin.client.common.KeycloakAdminClientConfig
 import jakarta.annotation.PreDestroy
 import jakarta.enterprise.context.ApplicationScoped
@@ -14,7 +14,6 @@ import org.keycloak.admin.client.Keycloak
 import org.keycloak.admin.client.KeycloakBuilder
 import org.keycloak.admin.client.resource.UsersResource
 import org.keycloak.representations.AccessTokenResponse
-import org.keycloak.representations.idm.ClientRepresentation
 import org.keycloak.representations.idm.CredentialRepresentation
 import org.keycloak.representations.idm.RoleRepresentation
 import org.keycloak.representations.idm.UserRepresentation
@@ -32,11 +31,7 @@ class AuthServiceImpl : AuthService {
     @Inject
     private lateinit var config: KeycloakAdminClientConfig
 
-    override fun getClientToken(): AccessTokenResponse {
-        return keycloak.tokenManager().accessToken
-    }
-
-    override fun registerUser(dto: AddUserDTO): UserRepresentation {
+    override fun registerUser(dto: AddUserDto): UserRepresentation {
         //Check if user already exist with same email
         val listOfUserRepresentations = getUserResource().searchByEmail(dto.email, true)
         if (listOfUserRepresentations.isNotEmpty()) throw ServiceException("User Already exist")
@@ -73,17 +68,7 @@ class AuthServiceImpl : AuthService {
         return roles.list()
     }
 
-    override fun getUserToken(dto: GetUserTokenDTO): AccessTokenResponse {
-        val clientRepresentation = ClientRepresentation()
-        clientRepresentation.clientId = ""
-        clientRepresentation.name = ""
-        clientRepresentation.secret = ""
-        clientRepresentation.isEnabled = true
-        clientRepresentation.authorizationServicesEnabled = true
-
-
-        keycloak.realm("").clients().create(clientRepresentation)
-
+    override fun getUserToken(dto: GetUserTokenDto): AccessTokenResponse {
         val keycloak = KeycloakBuilder.builder()
             .serverUrl(config.serverUrl.get())
             .realm(config.realm)

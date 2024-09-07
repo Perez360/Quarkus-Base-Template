@@ -3,6 +3,7 @@ package com.codex.business.components.user.repo
 import com.codex.business.components.contact.repo.Contact
 import com.codex.business.components.user.enum.UserRole
 import com.codex.business.components.user.enum.UserStatus
+import com.fasterxml.jackson.annotation.JsonBackReference
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntityBase
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
@@ -24,6 +25,7 @@ import java.time.LocalDateTime
         Index(name = "idx_user_modifiedAt", columnList = "modifiedAt"),
     ]
 )
+//@EntityListeners(UserEntityListener::class)
 class User : PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -39,6 +41,7 @@ class User : PanacheEntityBase {
         orphanRemoval = true,
         fetch = FetchType.EAGER
     )
+    @JsonBackReference
     var contacts: MutableSet<Contact> = mutableSetOf()
 
     var isEnabled: Boolean? = true
