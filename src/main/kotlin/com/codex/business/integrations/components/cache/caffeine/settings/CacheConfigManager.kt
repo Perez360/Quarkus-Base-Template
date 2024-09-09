@@ -8,9 +8,9 @@ import java.time.Duration
 import java.util.*
 
 @Singleton
-public class CacheConfigManager constructor(private val cacheManager: CacheManager) {
+class CacheConfigManager(private val cacheManager: CacheManager) {
     fun setExpireAfterAccess(cacheName: String, duration: Duration) {
-        val cache: Optional<Cache> = cacheManager.getCache(cacheName);
+        val cache: Optional<Cache> = cacheManager.getCache(cacheName)
         if (cache.isPresent) {
             cache.get().`as`(CaffeineCache::class.java).setExpireAfterAccess(duration)
         }

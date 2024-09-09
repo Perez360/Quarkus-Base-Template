@@ -7,9 +7,9 @@ data class ContactDto(
     var id: String? = null,
     var content: String? = null,
     var type: ContactType? = null,
-    val createdAt: LocalDateTime? = null,
-    val modifiedAt: LocalDateTime? = null,
-    val version: Long? = null
+    var createdAt: LocalDateTime? = null,
+    var modifiedAt: LocalDateTime? = null,
+    var version: Long? = null
 
 ) {
     override fun toString(): String {

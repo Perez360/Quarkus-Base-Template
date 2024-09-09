@@ -15,10 +15,10 @@ data class UserDto(
     var status: UserStatus? = null,
     var role: UserRole? = null,
     var isEnabled: Boolean? = null,
-    val contacts: MutableSet<ContactDto>? = null,
-    val createdAt: LocalDateTime? = null,
-    val modifiedAt: LocalDateTime? = null,
-    val version: Long? = null
+    var contacts: MutableSet<ContactDto>? = null,
+    var createdAt: LocalDateTime? = null,
+    var modifiedAt: LocalDateTime? = null,
+    var version: Long? = null
 ) {
     override fun toString(): String {
         return "UserDto(" +

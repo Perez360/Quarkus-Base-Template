@@ -1,4 +1,4 @@
-package com.codex.business.components.contact.boundary.http;
+package com.codex.business.components.contact.boundary.http
 
 import com.codex.base.Texts.CODE_SUCCESS
 import com.codex.base.Texts.SYSTEM_CODE_SUCCESS

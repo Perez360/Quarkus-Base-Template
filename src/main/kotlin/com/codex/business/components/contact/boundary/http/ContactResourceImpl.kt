@@ -21,10 +21,10 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 
-@Authenticated
+//@Authenticated
 @Path("api/v1/contacts")
 @Produces(MediaType.APPLICATION_JSON)
-@SecurityScheme(securitySchemeName = "keycloak")
+//@SecurityScheme(securitySchemeName = "keycloak")
 @Tag(name = "Contacts", description = "Manages everything related to contacts")
 class ContactResourceImpl : ContactResource {
 
@@ -34,7 +34,7 @@ class ContactResourceImpl : ContactResource {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     @POST
-    @RolesAllowed("ADMIN")
+    //@RolesAllowed("ADMIN")
     @Consumes(MediaType.APPLICATION_JSON)
     override fun addContact(dto: AddContactDto): APIResponse<ContactDto> {
         logger.info("Add contact route has been triggered with payload: {}", dto)
@@ -45,7 +45,7 @@ class ContactResourceImpl : ContactResource {
     }
 
     @PUT
-    @RolesAllowed("ADMIN")
+    //@RolesAllowed("ADMIN")
     @Consumes(MediaType.APPLICATION_JSON)
     override fun updateContact(dto: UpdateContactDto): APIResponse<ContactDto> {
         logger.info("Update contact route has been triggered with payload: {}", dto)
@@ -57,7 +57,7 @@ class ContactResourceImpl : ContactResource {
 
     @GET
     @Path("/{id}")
-    @RolesAllowed("ADMIN", "USER")
+    //@RolesAllowed("ADMIN", "USER")
     override fun getByContactId(@PathParam("id") id: String): APIResponse<ContactDto> {
         logger.info("Get contact by id route has been triggered with id: {}", id)
         val oneContact = contactService.getById(id)
@@ -68,7 +68,7 @@ class ContactResourceImpl : ContactResource {
 
     @GET
     @Path("/list")
-    @RolesAllowed("ADMIN", "USER")
+    //@RolesAllowed("ADMIN", "USER")
     override fun listAllContacts(
         @QueryParam("page") @DefaultValue("0") page: Int,
         @QueryParam("size") @DefaultValue("50") size: Int
@@ -82,7 +82,7 @@ class ContactResourceImpl : ContactResource {
 
     @GET
     @Path("/q")
-    @RolesAllowed("ADMIN", "USER")
+    //@RolesAllowed("ADMIN", "USER")
     override fun searchContacts(@BeanParam contactSpec: ContactSpec): APIResponse<PagedContent<ContactDto>> {
         logger.info("Search contacts route has been triggered with spec: {}", contactSpec)
         val pagedContacts: PagedContent<ContactDto> = contactService.search(contactSpec)
@@ -93,7 +93,7 @@ class ContactResourceImpl : ContactResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("ADMIN")
+    //@RolesAllowed("ADMIN")
     override fun deleteContact(@PathParam("id") id: String): APIResponse<ContactDto> {
         logger.info("Delete contact route has been triggered with id: {}", id)
         val oneContact = contactService.delete(id)

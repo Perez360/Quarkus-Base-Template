@@ -32,8 +32,8 @@ data class Contact(
     @Enumerated(value = EnumType.STRING)
     var type: ContactType? = null,
 
-    @JsonIgnore
-    @JsonBackReference
+//    @JsonIgnore
+//    @JsonBackReference
     @JoinColumn(name = "userId")
     @ManyToOne(fetch = FetchType.LAZY)
     var user: User? = null,

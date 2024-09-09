@@ -5,6 +5,4 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient
 
 @Path("")
 @RegisterRestClient(configKey = "")
-interface TestClient {
-
-}
+interface TestClient

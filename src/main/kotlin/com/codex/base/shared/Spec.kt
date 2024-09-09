@@ -26,7 +26,6 @@ abstract class Spec {
     @QueryParam(value = "sortOrder")
     var sortOrder: SortOrder? = SortOrder.DESC
 
-
     @DefaultValue(value = "AND")
     @QueryParam(value = "operator")
     var operator: Operator? = Operator.AND
