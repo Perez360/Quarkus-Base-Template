@@ -1,6 +1,6 @@
 package com.codex.base.shared
 
-import com.codex.base.enums.Operator
+import com.codex.base.enums.Operation
 import com.codex.base.enums.SortOrder
 import io.quarkus.panache.common.Parameters
 import jakarta.ws.rs.DefaultValue
@@ -13,11 +13,11 @@ abstract class Spec {
 
     @DefaultValue(value = "0")
     @QueryParam(value = "page")
-    var page: Int? = 0
+    var page: Int = 0
 
     @DefaultValue(value = "50")
     @QueryParam(value = "size")
-    var size: Int? = 50
+    var size: Int = 50
 
     @QueryParam(value = "sortBy")
     open var sortBy: String? = null
@@ -27,8 +27,8 @@ abstract class Spec {
     var sortOrder: SortOrder? = SortOrder.DESC
 
     @DefaultValue(value = "AND")
-    @QueryParam(value = "operator")
-    var operator: Operator? = Operator.AND
+    @QueryParam(value = "operation")
+    var operation: Operation? = Operation.AND
 
     abstract fun toParameters(): Parameters
 
@@ -40,7 +40,7 @@ abstract class Spec {
                 "size=$size, " +
                 "sortBy=$sortBy, " +
                 "sortOrder=$sortOrder, " +
-                "operator=$operator" +
+                "operation=$operation" +
                 ")"
     }
 }

@@ -81,7 +81,7 @@ class UserSpec : Spec() {
 
                 "sortOrder=$sortOrder, " +
                 "sortBy=$sortBy, " +
-                "operator=$operator, " +
+                "operator=$operation, " +
                 "page=$page, " +
                 "size=$size" +
                 ")"

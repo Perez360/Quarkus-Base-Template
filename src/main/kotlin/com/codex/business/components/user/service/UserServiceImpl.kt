@@ -1,6 +1,7 @@
 package com.codex.business.components.user.service
 
 import com.codex.base.exceptions.ServiceException
+import com.codex.base.utils.search
 import com.codex.business.components.user.dto.AddUserDto
 import com.codex.business.components.user.dto.UpdateUserDto
 import com.codex.business.components.user.repo.User

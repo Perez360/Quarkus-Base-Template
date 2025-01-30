@@ -49,7 +49,7 @@ class AuthServiceImpl : AuthService {
         val userId = CreatedResponseUtil.getCreatedId(createResponse)
         setCredential(userId, dto.password!!)
 
-        return if (createResponse.statusInfo.statusCode == Status.CREATED.statusCode)
+        return if (createResponse.statusInfo == Status.CREATED)
             getUserResource().get(userId)
                 .toRepresentation() else throw ServiceException("Failed to create user: ${createResponse.status}")
     }

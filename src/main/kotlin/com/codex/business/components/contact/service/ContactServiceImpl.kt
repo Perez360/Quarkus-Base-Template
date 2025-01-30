@@ -1,6 +1,7 @@
 package com.codex.business.components.contact.service
 
 import com.codex.base.exceptions.ServiceException
+import com.codex.base.utils.search
 import com.codex.business.components.contact.dto.AddContactDto
 import com.codex.business.components.contact.dto.UpdateContactDto
 import com.codex.business.components.contact.repo.Contact

@@ -24,7 +24,7 @@ import java.time.LocalDateTime
         Index(name = "idx_user_modifiedAt", columnList = "modifiedAt"),
     ]
 )
-//@EntityListeners(UserEntityListener::class)
+@EntityListeners(UserEntityListener::class)
 class User : PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

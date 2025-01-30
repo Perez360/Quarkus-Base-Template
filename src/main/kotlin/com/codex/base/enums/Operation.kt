@@ -1,5 +1,5 @@
 package com.codex.base.enums
 
-enum class Operator {
+enum class Operation {
     AND, OR
 }

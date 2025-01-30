@@ -10,6 +10,8 @@ object Mapper {
         configuration.isSkipNullEnabled = true
         configuration.matchingStrategy = MatchingStrategies.LOOSE
         configuration.fieldAccessLevel = Configuration.AccessLevel.PRIVATE
+        configuration.isFieldMatchingEnabled = true
+        configuration.isSkipNullEnabled = true
     }
 
     inline fun <S, reified T> convert(source: S): T = mapper.map(source, T::class.java)
